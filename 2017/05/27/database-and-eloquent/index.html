@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Laravel provides a suite of tools for interacting with your application’s database, but the most notable is Eloquent. ConfigurationTo config the database access, we need to go to config/database.php.">
+<meta name="keywords" content="Laravel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4.1 Database and Eloquent">
+<meta property="og:url" content="http://yoursite.com/2017/05/27/database-and-eloquent/index.html">
+<meta property="og:site_name" content="Yi Yang&#39;s blog">
+<meta property="og:description" content="Laravel provides a suite of tools for interacting with your application’s database, but the most notable is Eloquent. ConfigurationTo config the database access, we need to go to config/database.php.">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-22T03:27:52.566Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="4.1 Database and Eloquent">
+<meta name="twitter:description" content="Laravel provides a suite of tools for interacting with your application’s database, but the most notable is Eloquent. ConfigurationTo config the database access, we need to go to config/database.php.">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/27/database-and-eloquent/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>4.1 Database and Eloquent | Yi Yang's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yi Yang's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/27/database-and-eloquent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yi Yang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yi Yang's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">4.1 Database and Eloquent
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2017-05-27 15:38:50" itemprop="dateCreated datePublished" datetime="2017-05-27T15:38:50+10:00">2017-05-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-22 14:27:52" itemprop="dateModified" datetime="2019-03-22T14:27:52+11:00">2019-03-22</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Laravel provides a suite of tools for interacting with your application’s database, but the most notable is Eloquent.</p>
+<h1 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h1><p>To config the database access, we need to go to <code>config/database.php</code>.</p>
+<h1 id="Migrations"><a href="#Migrations" class="headerlink" title="Migrations"></a>Migrations</h1><p>Laravel makes it easy to define your database structure with code-driven migrations. Every new table, column, index, and key can be defined in code.</p>
+<h2 id="Defining-Migrations"><a href="#Defining-Migrations" class="headerlink" title="Defining Migrations"></a>Defining Migrations</h2><p>A migration is a single file that defines two things: the modifications desired when running this migration <code>up</code> and the modifications desired when running this migration <code>down</code></p>
+<p>The Laravel’s default ‘create user table’ migration</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Database</span>\<span class="title">Schema</span>\<span class="title">Blueprint</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Database</span>\<span class="title">Migrations</span>\<span class="title">Migration</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CreateUserTable</span> <span class="keyword">extends</span> <span class="title">Migration</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">up</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Schema::create(<span class="string">'users'</span>,<span class="function"><span class="keyword">function</span><span class="params">(Blueprint $table)</span></span>&#123;</span><br><span class="line">      $table-&gt;increments(<span class="string">'id'</span>);</span><br><span class="line">      $table-&gt;string(<span class="string">'name'</span>);</span><br><span class="line">      $table-&gt;string(<span class="string">'email'</span>)-&gt;unique();</span><br><span class="line">      $table-&gt;string(<span class="string">'password'</span>,<span class="number">60</span>);</span><br><span class="line">      $table-&gt;rememberToken();</span><br><span class="line">      $table-&gt;timestamps();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">down</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Schema::drop(<span class="string">'users'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> <code>up()</code> method tells the migration to create a new table called users with a few fields, and <code>down()</code> method tells it to drop the <em>users</em> table</p>
+<h3 id="Create-a-migration"><a href="#Create-a-migration" class="headerlink" title="Create a migration"></a>Create a migration</h3><p>There’s an Artisan command for creating a migration file.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan make:migration</span><br></pre></td></tr></table></figure>
+<p>The command has a parameter, which is the name of the migration. For example if you want to create a ‘create users table’ migration, you can run this:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan make:migration create_users_table</span><br></pre></td></tr></table></figure>
+<p>There are two flags we can optionally pass to this command. <code>--create=table_name</code> prefills the migration with code designed to create a table named <code>table_name</code>, and <code>--table=table_name</code> just prefills the migration for modifications to an existing table.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php artisan make:migration create_users_table --create=users</span><br><span class="line">php artisan make:migration add_votes_to_users_table --talbe=users</span><br></pre></td></tr></table></figure>
+<h3 id="Creating-tables"><a href="#Creating-tables" class="headerlink" title="Creating tables"></a>Creating tables</h3><p>In migration file, the migrations depend on the <code>Schema</code> facade and its methods. </p>
+<p>To create a new table in a migration, use the <code>Schema</code>‘s <code>create()</code> method</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Schema::create(<span class="string">'table'</span>,<span class="function"><span class="keyword">function</span><span class="params">(Blueprint $table)</span></span>&#123;</span><br><span class="line">  </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p> The first parameter is table’s name, and the second method closure that defines its columns.</p>
+<h3 id="Creating-columns"><a href="#Creating-columns" class="headerlink" title="Creating columns"></a>Creating columns</h3><p>To create new columns in a table, whether in a create table call or a modify table call, use the instance of <code>Blueprint</code> that’s passed into the second closure.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Schema::create(<span class="string">'table'</span>,<span class="function"><span class="keyword">function</span><span class="params">(Blueprint $table)</span></span>&#123;</span><br><span class="line">  $table-&gt;string(<span class="string">'name'</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>Blueprint has a lot of methods for us to create different type of columns</p>
+<p>For more details, check <a href="https://laravel.com/docs/5.4/migrations" target="_blank" rel="noopener">Laravle’s available column types</a></p>
+<h3 id="Building-extra-properties-fluently"><a href="#Building-extra-properties-fluently" class="headerlink" title="Building extra properties fluently"></a>Building extra properties fluently</h3><p>Most of the properties of a field definition, for example, the length are set as teh second parameter of the field creation method. We can chain more method calls after the creation of the column.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Schema::table(<span class="string">'users'</span>,<span class="function"><span class="keyword">function</span><span class="params">(Blueprint $table)</span></span>&#123;</span><br><span class="line">  $table-&gt;string(<span class="string">'email'</span>)-&gt;nullable()-&gt;after(<span class="string">'last_name'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>In above code, we defined a nullable column called email and this column is placed right after ‘last_name’ column.</p>
+<h3 id="Droping-tables"><a href="#Droping-tables" class="headerlink" title="Droping tables"></a>Droping tables</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Schema::drop(<span class="string">'users'</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="Modifying-columns"><a href="#Modifying-columns" class="headerlink" title="Modifying columns"></a>Modifying columns</h3><p>To modify a column, just write the code we would write to create the column as if it were new, and then append a call to the <code>change()</code> method after it.</p>
+<p>So if we have a string column named <em>name</em> that has a length of 255 and we want to change its length to 100, this is how we would write it:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Schema::table(<span class="string">'users'</span>, <span class="function"><span class="keyword">function</span><span class="params">(Blueprint $table)</span></span>&#123;</span><br><span class="line">  $table-&gt;string(<span class="string">'name'</span>,<span class="number">100</span>)-&gt;change();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>How to rename a column</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Schema::table(<span class="string">'users'</span>, <span class="function"><span class="keyword">function</span><span class="params">(Blueprint $table)</span></span>&#123;</span><br><span class="line">  $table-&gt;renameColumn(<span class="string">'from'</span>,<span class="string">'to'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>How to drop a column</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Schema::table(<span class="string">'users'</span>,<span class="function"><span class="keyword">function</span><span class="params">(Blueprint $table)</span></span>&#123;</span><br><span class="line">  $table-&gt;dropColumn(<span class="string">'name'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="Adding-indexes"><a href="#Adding-indexes" class="headerlink" title="Adding indexes"></a>Adding indexes</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$table-&gt;primary(<span class="string">'id'</span>); <span class="comment">// primary key: unnecessary if used increments()</span></span><br><span class="line">$table-&gt;primary([<span class="string">'first_name'</span>,<span class="string">'last_name'</span>]); <span class="comment">// composite keys</span></span><br><span class="line">$table-&gt;unique(<span class="string">'email'</span>); <span class="comment">// unique index</span></span><br><span class="line">$table-&gt;unique(<span class="string">'email'</span>,<span class="string">'optional_custom_index_name'</span>);</span><br><span class="line">$table-&gt;index(<span class="string">'amount'</span>); <span class="comment">//basic index</span></span><br><span class="line">$table-&gt;index(<span class="string">'amount'</span>,<span class="string">'optional_custom_index_name'</span>); <span class="comment">//basic index</span></span><br></pre></td></tr></table></figure>
+<p>Note: <code>primary()</code> is not necessary if you are using the <code>increments()</code> meth</p>
+<p>od to create your index, this will automatically add a primary key index for you</p>
+<h3 id="Removing-indexes"><a href="#Removing-indexes" class="headerlink" title="Removing indexes"></a>Removing indexes</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$table-&gt;dropPrimary(<span class="string">'id'</span>);</span><br><span class="line">$table-&gt;dropUnique(<span class="string">'email'</span>);</span><br><span class="line">$table-&gt;dropIndex(<span class="string">'optional_custom_index_name'</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="Adding-and-removing-foreign-keys"><a href="#Adding-and-removing-foreign-keys" class="headerlink" title="Adding and removing foreign keys"></a>Adding and removing foreign keys</h3><p>To add a foreign key that a particular column references a column on another table</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$table-&gt;foreign(<span class="string">'user_id'</span>)-&gt;references(<span class="string">'id'</span>)-&gt;on(<span class="string">'users'</span>)-&gt;onDelete(<span class="string">'cascade'</span>);</span><br></pre></td></tr></table></figure>
+<p>To remove foreign key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$table-&gt;dropForeign([&apos;user_id&apos;]);</span><br></pre></td></tr></table></figure>
+<h2 id="Running-Migration"><a href="#Running-Migration" class="headerlink" title="Running Migration"></a>Running Migration</h2><a id="more"></a>
+<p>Once you have your migrations defined, there’s an Artisan command for running it</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan migrate</span><br></pre></td></tr></table></figure>
+<p>There are few other options in this namespace that we can work with.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan migrate --seed</span><br></pre></td></tr></table></figure>
+<p><code>migrate:install</code></p>
+<blockquote>
+<p>creates the database table the keeps track of which migrations you have and haven’t run; this is run automatically when you run your migrations</p>
+</blockquote>
+<p><code>migrate:reset</code></p>
+<blockquote>
+<p>rolls back every database migration you’ve run on this install</p>
+</blockquote>
+<p><code>migrate:refresh</code></p>
+<blockquote>
+<p>rolls back every database migration you’ve run on this install, and then runs every migration available. It’s the same as running <code>migration:reset</code> and then ‘migrate’, one after another</p>
+</blockquote>
+<p><code>migrate:rollback</code></p>
+<blockquote>
+<p>rolls back <strong>just</strong> the migration that ran the last time you ran migrate, or, with the added option <code>--step=1</code>, rolls back the number of migrations you specify.</p>
+</blockquote>
+<p><code>migration:status</code></p>
+<blockquote>
+<p>shows a table listing every migration, with a Y or N next to each showing whether or not it has run yet in this environment</p>
+</blockquote>
+<h1 id="Seeding"><a href="#Seeding" class="headerlink" title="Seeding"></a>Seeding</h1><p>Seeding with Laravel is simple. There’s a <code>database/seeds</code> folder that comes with a <code>DatabaseSeeder</code> class, which has a <code>run()</code> method that is called when you call the seeder.</p>
+<p>There are two way to run the seeders: along with a migration, or separately.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php artisan migrate --seed</span><br><span class="line">php artisan migrate:refresh --seed</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php artisan db:seed</span><br><span class="line">php artisan db:seed --class=UsersTableSeeder</span><br></pre></td></tr></table></figure>
+<h2 id="Creating-a-Seeder"><a href="#Creating-a-Seeder" class="headerlink" title="Creating a Seeder"></a>Creating a Seeder</h2><p>To create a seeder, user the <code>make:seeder</code> Artisan command:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan make:seeder UsersTableSeeder</span><br></pre></td></tr></table></figure>
+<p>You’ll now see a UsersTableSeeder class show up in the <code>database/seeds</code> directory. Now we add it to the <code>DatabaseSeeder</code> class so it will run when we run our seeders:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//database/seeds/DatabaseSeeder.php</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="keyword">$this</span>-&gt;call(UsersTableSeeder::class);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Now we can edit the seeder itself. The simplest thing we can do there is manually insert a record using the <code>DB</code> facade:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Database</span>\<span class="title">Seeder</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Database</span>\<span class="title">Eloquent</span>\<span class="title">Model</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UsersTableSeeder</span> <span class="keyword">extends</span> <span class="title">Seeder</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    DB::table(<span class="string">'users'</span>)-&gt;insert([</span><br><span class="line">      <span class="string">'name'</span> =&gt; <span class="string">'hello'</span>,</span><br><span class="line">      <span class="string">'email'</span> =&gt; <span class="string">'world@gmail.com'</span></span><br><span class="line">    ]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Model-Factories"><a href="#Model-Factories" class="headerlink" title="Model Factories"></a>Model Factories</h2><p>Model factories define one or more patterns for creating fake entries for our database tables. By default they’re named after an Eloquent class, but you can also just name them after the table name if you’re not going to work with Elquent. </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$factory-&gt;define(User::class, <span class="function"><span class="keyword">function</span><span class="params">(Faker\Generator $faker)</span></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [</span><br><span class="line">    <span class="string">'name'</span> =&gt; $faker-&gt;name,</span><br><span class="line">  ]</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">$factory-&gt;define(<span class="string">'users'</span>, <span class="function"><span class="keyword">function</span><span class="params">(Faker\Generator $faker)</span></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [</span><br><span class="line">    <span class="string">'name'</span> =&gt; $faker-&gt;name,</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="Creating-a-model-factory"><a href="#Creating-a-model-factory" class="headerlink" title="Creating a model factory"></a>Creating a model factory</h3><p>Model factories are defined in <code>database/factories/ModelFactory.php</code>. Each factory has a name and a definition of how to create a new instance of the define class. The <code>$factory-&gt;define()</code> method takes the factory name as the first parameter and a closure that’s run for each generation as the second parameter.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$factory-&gt;define(User::class, <span class="function"><span class="keyword">function</span><span class="params">(Faker\Generator $faker)</span></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [</span><br><span class="line">    <span class="string">'name'</span> =&gt; $faker-&gt;name,</span><br><span class="line">  ];</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>Now we can user the <code>factory()</code>  global helper to create an instance of <code>User</code> in our seeding and testing</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$user = factory(User::class)-&gt;create();</span><br><span class="line">factory(User::class,<span class="number">20</span>)-&gt;create();</span><br></pre></td></tr></table></figure>
+<h3 id="Using-a-model-factory"><a href="#Using-a-model-factory" class="headerlink" title="Using a model factory"></a>Using a model factory</h3><p>There are two primary contexts in which we’ll use model factories: testing and seeding</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">factory(User::class)-&gt;create([</span><br><span class="line">  <span class="string">'name'</span> =&gt; <span class="string">'name'</span></span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">factory(User::class,<span class="number">20</span>)-&gt;create()-&gt;each(<span class="function"><span class="keyword">function</span> <span class="params">($u)</span> <span class="title">use</span> <span class="params">($post)</span> </span>&#123;</span><br><span class="line">  $post-&gt;comments()-&gt;save(factory(Comment::class)-&gt;make([</span><br><span class="line">    <span class="string">'user_id'</span> =&gt; $u-&gt;id</span><br><span class="line">  ]));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>When we’re using <code>factory()</code>, it will returns the factory, and then we can run one of two methods on it: <code>make()</code> or <code>create()</code></p>
+<p>Both method generate an instane of this class. The difference is that <code>make()</code> creates the instance but doesn’t save it to the database, whereas <code>create()</code> saves it to the database instantly.</p>
+<h3 id="Overwriting-properties-when-calling-a-model-factory"><a href="#Overwriting-properties-when-calling-a-model-factory" class="headerlink" title="Overwriting  properties when calling a model factory"></a>Overwriting  properties when calling a model factory</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">factory(User::class)-&gt;create([</span><br><span class="line">  <span class="string">'name'</span> =&gt; <span class="string">'name'</span></span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+<h3 id="Generatin-more-than-one-instance-with-a-model-factory"><a href="#Generatin-more-than-one-instance-with-a-model-factory" class="headerlink" title="Generatin more than one instance with a model factory"></a>Generatin more than one instance with a model factory</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">factory(User::class, <span class="number">20</span>)-&gt;create();</span><br></pre></td></tr></table></figure>
+<p>We will create 20 fake users in database</p>
+<h3 id="Defining-and-accessing-multiple-model-factory-types"><a href="#Defining-and-accessing-multiple-model-factory-types" class="headerlink" title="Defining and accessing multiple model factory types"></a>Defining and accessing multiple model factory types</h3><p>Let say we have a <code>customer</code> factory</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$factory-&gt;define(Customer::class, <span class="function"><span class="keyword">function</span><span class="params">(Faker\Generator $faker)</span></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [</span><br><span class="line">    <span class="string">'name'</span> =&gt; $faker-&gt;name</span><br><span class="line">  ]</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>But somethimes you need more than one factory for a class of object, for example,  we need to add some customers who are VIP,  we can define a second factory like this</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$factory-&gt;defineAs(Customer::class,<span class="string">'vip'</span>, <span class="function"><span class="keyword">function</span><span class="params">(Faker\Generator $faker)</span></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [</span><br><span class="line">    <span class="string">'name'</span> =&gt; $faker-&gt;name,</span><br><span class="line">    <span class="string">'vip'</span> =&gt; <span class="keyword">true</span></span><br><span class="line">  ]</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Above code looks fine, right. But imagine that the customer has more than 100 columns, will you write the colunmns one by one again and agian? </p>
+<p>Actually, we can make any given model factory extend another, and then it can just override one or a few properties. So above code could be changed to this:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$factory-&gt;defineAs(Customer::class,<span class="string">'vip'</span>,<span class="function"><span class="keyword">function</span><span class="params">(Faker\Generator $faker)</span> <span class="title">use</span> <span class="params">($factory)</span> </span>&#123;</span><br><span class="line">  $customer = $factory-&gt;raw(Customer::class);</span><br><span class="line">  <span class="keyword">return</span> array_merge([<span class="string">'vip'</span> =&gt; <span class="keyword">true</span>,$customer]);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Now, let;s make a specific customer type:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">factory(Customer::class,<span class="string">'vip'</span>,<span class="number">3</span>)-&gt;create();</span><br></pre></td></tr></table></figure>
+<h1 id="Query-Builder"><a href="#Query-Builder" class="headerlink" title="Query Builder"></a>Query Builder</h1><p>Laravel provides a fluent interface, which means by using query builder, we don’t need to pass all the relevant data into either a constructor or a method call, fluent uses method chaining to provide a simpler API to the end user.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// non-fluent</span></span><br><span class="line">$user = DB::select([<span class="string">'table'</span> =&gt; <span class="string">'users'</span>, <span class="string">'where'</span> =&gt; [<span class="string">'type'</span> =&gt; <span class="string">'donor'</span>] ]);</span><br><span class="line"></span><br><span class="line"><span class="comment">//fluent</span></span><br><span class="line">$user = DB::table(<span class="string">'users'</span>)-&gt;where(<span class="string">'type'</span>,<span class="string">'donor'</span>)-&gt;get();</span><br></pre></td></tr></table></figure>
+<h2 id="Basic-Usage-of-the-DB-Facade"><a href="#Basic-Usage-of-the-DB-Facade" class="headerlink" title="Basic Usage of the DB Facade"></a>Basic Usage of the DB Facade</h2><p><code>DB</code> facade is used both for query builder chaining and for simpler raw queries. </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// basic statement</span></span><br><span class="line">DB::statement(<span class="string">'drop table users'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// raw select, and parameter binding</span></span><br><span class="line">DB::select(<span class="string">'select * from users where validated = ?'</span>, [<span class="keyword">true</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">//select using the fluent builder</span></span><br><span class="line">DB::table(<span class="string">'users'</span>)-&gt;get();</span><br><span class="line"></span><br><span class="line"><span class="comment">//join and other complex calls</span></span><br><span class="line">DB::table(<span class="string">'users'</span>)-&gt;join(<span class="string">'contacts'</span>, <span class="function"><span class="keyword">function</span><span class="params">($join)</span></span>&#123;</span><br><span class="line">  $join-&gt;on(<span class="string">'users.id'</span>,<span class="string">'='</span>,<span class="string">'contacts.user_id'</span>)-&gt;where(<span class="string">'contacts.type'</span>,<span class="string">'donor'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="Raw-SQL"><a href="#Raw-SQL" class="headerlink" title="Raw SQL"></a>Raw SQL</h2><p>It’s able to make any raw call to the database using the <code>DB</code> facede and the</p>
+<p><code>statement()</code> method</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::statement(<span class="string">'SQL statement here'</span>)</span><br></pre></td></tr></table></figure>
+<p>Bur there are also specific methods for varipus common actions: <code>select()</code>, <code>insert()</code>, <code>update()</code>, <code>delete()</code>. These are still raw calls, but there are differences. First, using <code>update()</code> and <code>delete()</code> will reutrn the number of rows affected, whereas <code>statement()</code> won’t; second, with these methods it’s clearer.</p>
+<h3 id="Raw-selects"><a href="#Raw-selects" class="headerlink" title="Raw selects"></a>Raw selects</h3><p>The simplest of the specific <code>DB</code> method is <code>select()</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::select(<span class="string">'select * from users'</span>);</span><br></pre></td></tr></table></figure>
+<p>This will return a collection of stdClass objects.</p>
+<h3 id="Parameter-bindings-and-named-bindings"><a href="#Parameter-bindings-and-named-bindings" class="headerlink" title="Parameter bindings and named bindings"></a>Parameter bindings and named bindings</h3><p>Laravel’s database architrcture allows for the use of PDO parameter binding, which protects your queries from potential SQL attacks. </p>
+<p>Passing a parameter to a statement is as simple as replacing the value in your statement with a <code>?</code>, then adding the value to the second parameter (array) of your call</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::select(<span class="string">'select * from users where type = ?'</span>, [<span class="string">'type'</span> =&gt; $userType]);</span><br></pre></td></tr></table></figure>
+<h3 id="Raw-insert"><a href="#Raw-insert" class="headerlink" title="Raw insert"></a>Raw insert</h3><p>Raw insert looks like this</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DB::insert(<span class="string">'insert into contacts (name, email) values (?, ?)'</span>, </span><br><span class="line">[<span class="string">'sally'</span>,<span class="string">'sally@gmail.com'</span>]);</span><br></pre></td></tr></table></figure>
+<h3 id="Raw-updates"><a href="#Raw-updates" class="headerlink" title="Raw updates"></a>Raw updates</h3><p>Update looks like this:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::update(<span class="string">'update contacts set status = ? where id = ?'</span>, [<span class="string">'donor'</span>,$id]);</span><br></pre></td></tr></table></figure>
+<h3 id="Raw-deletes"><a href="#Raw-deletes" class="headerlink" title="Raw deletes"></a>Raw deletes</h3><p>Delete looks like this:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::delete(<span class="string">'delete from contacts where archived = ?'</span>, [<span class="keyword">true</span>]);</span><br></pre></td></tr></table></figure>
+<h2 id="Chaining-with-the-query-builder"><a href="#Chaining-with-the-query-builder" class="headerlink" title="Chaining with the query builder"></a>Chaining with the query builder</h2><p>The query builder makes it possible to chain methods together to build a query. At the end of the chain you’ll use some method to trigger the actual execution of the query you’ve just built.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'user'</span>)-&gt;where(<span class="string">'type'</span>,$type)-&gt;get();</span><br></pre></td></tr></table></figure>
+<h3 id="Constraining-methods"><a href="#Constraining-methods" class="headerlink" title="Constraining methods"></a>Constraining methods</h3><p>These methods take the query as it is and constrain it to return a smaller subset of possible data</p>
+<p><code>select()</code></p>
+<p>Allows you to choose which columns you’re selecting:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;select(<span class="string">'email'</span>,<span class="string">'email2 as second_email'</span>)-&gt;get();</span><br><span class="line"></span><br><span class="line"><span class="comment">//or</span></span><br><span class="line"></span><br><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;select(<span class="string">'email'</span>)-&gt;addSelect(<span class="string">'email2 as second_eamil'</span>)-&gt;get();</span><br></pre></td></tr></table></figure>
+<p><code>where()</code></p>
+<p>Allows you to limit the scope of what’s being returned using WHERE. By default, <code>where()</code> method is that it takes three parameters: the column, the comparsion operator, and the value:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;where(<span class="string">'created_at'</span>,<span class="string">'&gt;'</span>,Carbon::now()-&gt;subDay())-&gt;get();</span><br></pre></td></tr></table></figure>
+<p>However, if your comparison is =, which is the most common comparison, you can drop the second operator</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;where(<span class="string">'vip'</span>,<span class="keyword">true</span>)-&gt;get();</span><br></pre></td></tr></table></figure>
+<p>If you want to combine <code>where()</code> statements, you can either chain them after each other, or pass an array of arrays:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;where(<span class="string">'vip'</span>,<span class="keyword">true</span>)-&gt;where(<span class="string">'created_at'</span>,<span class="string">'&gt;'</span>,Carbon::now()-&gt;subDay())-&gt;get();</span><br><span class="line"></span><br><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;where([<span class="string">'vip'</span>,<span class="keyword">true</span>],[<span class="string">'created_at'</span>,<span class="string">'&gt;'</span>,Carbon::now()-&gt;subDay()]);</span><br></pre></td></tr></table></figure>
+<p><code>orWhere()</code></p>
+<p>Creates simple OR WHERE statements:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;where(<span class="string">'vip'</span>,<span class="keyword">true</span>)-&gt;orWhere(<span class="function"><span class="keyword">function</span><span class="params">($query)</span></span>&#123;</span><br><span class="line">  $query-&gt;where(<span class="string">'created_at'</span>,<span class="string">'&gt;'</span>,Carbon::now()-&gt;subDay())-&gt;where(<span class="string">'trial'</span>,<span class="keyword">false</span>);</span><br><span class="line">&#125;)-&gt;get();</span><br></pre></td></tr></table></figure>
+<p>Potential confusion with multiple where and orWhere calls</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'users'</span>)-&gt;where(<span class="string">'admin'</span>,<span class="keyword">true</span>)-&gt;orWhere(<span class="string">'plan'</span>,<span class="string">'premium'</span>)-&gt;where(<span class="string">'is_plan_owner'</span>,<span class="keyword">true</span>)-&gt;get();</span><br><span class="line"></span><br><span class="line">SELECT * FROM users </span><br><span class="line">	WHERE admin = <span class="number">1</span></span><br><span class="line">	<span class="keyword">OR</span> plan = <span class="string">'premium'</span></span><br><span class="line">	<span class="keyword">AND</span> is_plan_owner = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">DB::table(<span class="string">'users'</span>)-&gt;where(<span class="string">'admin'</span>,<span class="keyword">true</span>)-&gt;orWhere(<span class="function"><span class="keyword">function</span><span class="params">($query)</span></span>&#123;</span><br><span class="line">  $query-&gt;where(<span class="string">'plan'</span>,<span class="string">'premium'</span>)-&gt;where(<span class="string">'is_plan_owner'</span>,<span class="keyword">true</span>);</span><br><span class="line">&#125;)-&gt;get();</span><br><span class="line"></span><br><span class="line">SELECT * FROM users</span><br><span class="line">	WHERE admin = <span class="number">1</span></span><br><span class="line">	<span class="keyword">OR</span> (plan = <span class="string">'premium'</span> <span class="keyword">AND</span> is_plan_owner = <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p><code>whereBetween(colName, [low, high])</code></p>
+<p>Allows you to scope a query to return only rows where a column is between two values (inclusive of the two values):</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'drinks'</span>)-&gt;whereBetween(<span class="string">'size'</span>,[<span class="number">6</span>,<span class="number">12</span>])-&gt;get();</span><br></pre></td></tr></table></figure>
+<p>The same works for <code>whereNotBetween()</code>, but it will select the inverse.</p>
+<p><code>whereIn(colName, [1,2,3])</code></p>
+<p>Allows you to scope a query to return only rows where a column is in an explicitly provided list of options:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;whereIn(<span class="string">'state'</span>,[<span class="string">'FL'</span>,<span class="string">'GA'</span>,<span class="string">'AL'</span>])-&gt;get();</span><br></pre></td></tr></table></figure>
+<p><code>whereNull(colName) and whereNotNull(colName)</code></p>
+<p>Allow you to select only rows where a given column is NULL or is NOT NULL respectively.</p>
+<p><code>whereRaw()</code></p>
+<p>Allows you to pass in a raw, unescaped string to be added after WHERE statement</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;whereRaw(<span class="string">'id = 12345'</span>)-&gt;get();</span><br></pre></td></tr></table></figure>
+<p><code>whereExists()</code></p>
+<p>Allows you to select only rows that, when passed into a provided subquery, return at least one row. Imagine you only want to get those users who have left at least on comment:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'users'</span>)-&gt;whereExists(<span class="function"><span class="keyword">function</span><span class="params">($query)</span></span>&#123;</span><br><span class="line">	$query-&gt;select(<span class="string">'id'</span>)-&gt;from(<span class="string">'comments'</span>)-&gt;whereRaw(<span class="string">'comments.user_id = users.id'</span>);  </span><br><span class="line">&#125;)-&gt;get();</span><br></pre></td></tr></table></figure>
+<p><code>distinct()</code></p>
+<p>Select the distinct rows.</p>
+<h3 id="Modifying-methods"><a href="#Modifying-methods" class="headerlink" title="Modifying methods"></a>Modifying methods</h3><p>These methods change the way the query’s results will be output, rather than just limiting its results</p>
+<p><code>orderBy()</code></p>
+<p>Orders the result. The second parameter may be either asc (the defaullt) or desc:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;orderBy(<span class="string">'last_name'</span>,<span class="string">'desc'</span>)-&gt;get();</span><br></pre></td></tr></table></figure>
+<p><code>groupBy()</code></p>
+<p>Groups your result by a column. Optionally, <code>having()</code> and <code>havingRaw()</code> allow you to filter your result based on properties of the groups.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;groupBy(<span class="string">'city'</span>)</span><br><span class="line">-&gt;havingRaw(<span class="string">'count(contact_id) &gt; 30'</span>)</span><br><span class="line">-&gt;get();</span><br></pre></td></tr></table></figure>
+<p><code>skip()</code> and <code>take()</code></p>
+<p>Most often used for pagination, there allow you to define how many rows to return and how many to skip before starting the return, for example, a page number and a page size in a pagination system:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;skip(<span class="number">30</span>)-&gt;take(<span class="number">10</span>)-&gt;get();</span><br></pre></td></tr></table></figure>
+<p><code>latest(colName)</code> and<code>oldest(colName)</code></p>
+<p>Sotr by the passed column in descending (<code>latest()</code>) or ascending (<code>oldest()</code>) order</p>
+<p><code>inRandomOrder()</code></p>
+<p>Sorts teh result randomly</p>
+<h3 id="Eending-returning-methods"><a href="#Eending-returning-methods" class="headerlink" title="Eending/returning methods"></a>Eending/returning methods</h3><p>These methods stop the query chain and trigger the execution of the SQL query</p>
+<p><code>get()</code></p>
+<p>Get all results for the built query</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'cotacts'</span>)-&gt;get();</span><br></pre></td></tr></table></figure>
+<p><code>first()</code> and <code>firstOrFail()</code></p>
+<p>Get only the first result, but with a LIMIT 1 added</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// fails silently</span></span><br><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;orderBy(<span class="string">'created_at'</span>,<span class="string">'desc'</span>)-&gt;first();</span><br><span class="line"><span class="comment">// throw an exception</span></span><br><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;orderBy(<span class="string">'created_at'</span>,<span class="string">'desc'</span>)-&gt;firstOrFail();</span><br></pre></td></tr></table></figure>
+<p><code>find(id)</code> and <code>findOrFail(id)</code></p>
+<p>Like <code>first()</code>, but you pass in an ID value that corresponds to the primary key to look up.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;find(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p><code>value()</code></p>
+<p>Plucks just the value from a single field from the first row. Like <code>first()</code>, but if you only want a single column:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;value(<span class="string">'email'</span>)</span><br></pre></td></tr></table></figure>
+<p><code>count()</code></p>
+<p>Returns an integer count of all the matching results</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;where(<span class="string">'vip'</span>,<span class="keyword">true</span>)-&gt;count();</span><br></pre></td></tr></table></figure>
+<p><code>min()</code>and <code>max()</code></p>
+<p>Return the minimun or maximum value of particular column</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'orders'</span>)-&gt;max(<span class="string">'amount'</span>);</span><br></pre></td></tr></table></figure>
+<p><code>sum()</code> and <code>avg()</code></p>
+<p>Return the sum or average of all the values in a particular column</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'orders'</span>)-&gt;where(<span class="string">'status'</span>,<span class="string">'completed'</span>)-&gt;avg(<span class="string">'amount'</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="Writing-raw-queries-inside-query-builder-methods-with-DB-raw"><a href="#Writing-raw-queries-inside-query-builder-methods-with-DB-raw" class="headerlink" title="Writing raw queries inside query builder methods with DB::raw"></a>Writing raw queries inside query builder methods with <code>DB::raw</code></h3><p>We’ve already seen a few custome methods for raw statements, <code>select()</code> has a <code>selectRaw()</code> that allows you to pass in a string for the query builder to place after the <code>WHERE</code> statement.</p>
+<p>You can also pass in the result of a DB::raw() call to almost any method in the query builder to achieve the same result.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'contacts'</span>)-&gt;select(DB::raw(<span class="string">'*,(score * 100) as integer_score'</span>))-&gt;get()</span><br></pre></td></tr></table></figure>
+<h3 id="Joins"><a href="#Joins" class="headerlink" title="Joins"></a>Joins</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'users'</span>)</span><br><span class="line">-&gt;join(<span class="string">'contacts'</span>,<span class="string">'users.id'</span>,<span class="string">'='</span>,<span class="string">'contacts.user_id'</span>)</span><br><span class="line">-&gt;select(<span class="string">'users.*'</span>,<span class="string">'contacts.name'</span>,<span class="string">'contacts.status'</span>)</span><br><span class="line">-&gt;get();</span><br></pre></td></tr></table></figure>
+<p>The <code>join()</code> method creates an inner join. You can also chain together multiple joins one after another, or use <code>leftJoin()</code> to get a left join.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'users'</span>)</span><br><span class="line">-&gt;join(<span class="string">'contacts'</span>, <span class="function"><span class="keyword">function</span><span class="params">($join)</span></span>&#123;</span><br><span class="line">  $join-&gt;on(<span class="string">'users.id'</span>,<span class="string">'='</span>,<span class="string">'contacts.id'</span>)</span><br><span class="line">  -&gt;orOn(<span class="string">'users.id'</span>,<span class="string">'='</span>,<span class="string">'contacts.proxy_user_id'</span>);</span><br><span class="line">&#125;)-&gt;get();</span><br></pre></td></tr></table></figure>
+<h3 id="Unions"><a href="#Unions" class="headerlink" title="Unions"></a>Unions</h3><p>You can union two queries together by creating them frist and the using teh <code>union()</code> or <code>unionAll()</code> method to union them</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$first = DB::table(<span class="string">'contacts'</span>)-&gt;whereNull(<span class="string">'first_name'</span>);</span><br><span class="line"></span><br><span class="line">$second = DB::table(<span class="string">'contacts'</span>)-&gt;whereNull(<span class="string">'last_name'</span>)-&gt;union(first)-&gt;get();</span><br></pre></td></tr></table></figure>
+<h3 id="Inserts"><a href="#Inserts" class="headerlink" title="Inserts"></a>Inserts</h3><p>The <code>insert()</code> method is pretty simple. Pass it an array to insert a single row or an array of arrays to insert multiple rows, and use <code>insertGetId()</code>instead of <code>insert()</code> to get the autoincrementing primary key ID back as a return.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'users'</span>)-&gt;insert([</span><br><span class="line">  <span class="string">'name'</span> =&gt; <span class="string">'hello'</span>,</span><br><span class="line">  <span class="string">'email'</span> =&gt; <span class="string">'world@gmail.com'</span></span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">DB::table(<span class="string">'users'</span>)-&gt;insertGetId([</span><br><span class="line">  [<span class="string">'name'</span> =&gt; <span class="string">'hello'</span>,</span><br><span class="line">  <span class="string">'email'</span> =&gt; <span class="string">'world@gmail.com'</span>],</span><br><span class="line">  [<span class="string">'name'</span> =&gt; <span class="string">'hello1'</span>,</span><br><span class="line">  <span class="string">'email'</span> =&gt; <span class="string">'world1@gmail.com'</span>]</span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+<p>Note: when you are using <code>insertGetId()</code> the parameter should not be an array of arrays.</p>
+<h3 id="Updates"><a href="#Updates" class="headerlink" title="Updates"></a>Updates</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'users'</span>)-&gt;where(<span class="string">'id'</span>,<span class="number">1</span>)-&gt;update([<span class="string">'name'</span> =&gt; <span class="string">'hello'</span>]);</span><br></pre></td></tr></table></figure>
+<p>You can also quickly increment or decrement a column’s value by using <code>increment()</code> or <code>decrement()</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'users'</span>)-&gt;increment(<span class="string">'votes'</span>,<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="Deletes"><a href="#Deletes" class="headerlink" title="Deletes"></a>Deletes</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'users'</span>)-&gt;where(<span class="string">'last_login'</span>,<span class="string">'&lt;'</span>,Carbon::now()-&gt;subYear()))-&gt;delete();</span><br></pre></td></tr></table></figure>
+<p>You can also truncate the table</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'users'</span>)-&gt;truncate();</span><br></pre></td></tr></table></figure>
+<h3 id="JSON-operations"><a href="#JSON-operations" class="headerlink" title="JSON operations"></a>JSON operations</h3><p>If you have JSON columns, you can update or select rows based on aspects of the JSON structure by using the arrow syntax to traverse children</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DB::table(<span class="string">'users'</span>)-&gt;where(<span class="string">'options-&gt;isAdmin'</span>,<span class="keyword">true</span>)-&gt;get();</span><br><span class="line">DB::table(<span class="string">'users'</span>)-&gt;update([<span class="string">'option-&gt;isVerified'</span>,<span class="keyword">true</span>]);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Laravel/" rel="tag"># Laravel</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/26/collecting-and-handling-user-data/" rel="next" title="3. Collecting and Handling User Data">
+                <i class="fa fa-chevron-left"></i> 3. Collecting and Handling User Data
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/28/database-and-eloquent-2/" rel="prev" title="4.2 Database and Eloquent">
+                4.2 Database and Eloquent <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Yi Yang</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Configuration"><span class="nav-number">1.</span> <span class="nav-text">Configuration</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Migrations"><span class="nav-number">2.</span> <span class="nav-text">Migrations</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Defining-Migrations"><span class="nav-number">2.1.</span> <span class="nav-text">Defining Migrations</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-migration"><span class="nav-number">2.1.1.</span> <span class="nav-text">Create a migration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Creating-tables"><span class="nav-number">2.1.2.</span> <span class="nav-text">Creating tables</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Creating-columns"><span class="nav-number">2.1.3.</span> <span class="nav-text">Creating columns</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Building-extra-properties-fluently"><span class="nav-number">2.1.4.</span> <span class="nav-text">Building extra properties fluently</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Droping-tables"><span class="nav-number">2.1.5.</span> <span class="nav-text">Droping tables</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Modifying-columns"><span class="nav-number">2.1.6.</span> <span class="nav-text">Modifying columns</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Adding-indexes"><span class="nav-number">2.1.7.</span> <span class="nav-text">Adding indexes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Removing-indexes"><span class="nav-number">2.1.8.</span> <span class="nav-text">Removing indexes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Adding-and-removing-foreign-keys"><span class="nav-number">2.1.9.</span> <span class="nav-text">Adding and removing foreign keys</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Running-Migration"><span class="nav-number">2.2.</span> <span class="nav-text">Running Migration</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Seeding"><span class="nav-number">3.</span> <span class="nav-text">Seeding</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Creating-a-Seeder"><span class="nav-number">3.1.</span> <span class="nav-text">Creating a Seeder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-Factories"><span class="nav-number">3.2.</span> <span class="nav-text">Model Factories</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Creating-a-model-factory"><span class="nav-number">3.2.1.</span> <span class="nav-text">Creating a model factory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Using-a-model-factory"><span class="nav-number">3.2.2.</span> <span class="nav-text">Using a model factory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Overwriting-properties-when-calling-a-model-factory"><span class="nav-number">3.2.3.</span> <span class="nav-text">Overwriting  properties when calling a model factory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generatin-more-than-one-instance-with-a-model-factory"><span class="nav-number">3.2.4.</span> <span class="nav-text">Generatin more than one instance with a model factory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Defining-and-accessing-multiple-model-factory-types"><span class="nav-number">3.2.5.</span> <span class="nav-text">Defining and accessing multiple model factory types</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Query-Builder"><span class="nav-number">4.</span> <span class="nav-text">Query Builder</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-Usage-of-the-DB-Facade"><span class="nav-number">4.1.</span> <span class="nav-text">Basic Usage of the DB Facade</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Raw-SQL"><span class="nav-number">4.2.</span> <span class="nav-text">Raw SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Raw-selects"><span class="nav-number">4.2.1.</span> <span class="nav-text">Raw selects</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Parameter-bindings-and-named-bindings"><span class="nav-number">4.2.2.</span> <span class="nav-text">Parameter bindings and named bindings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Raw-insert"><span class="nav-number">4.2.3.</span> <span class="nav-text">Raw insert</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Raw-updates"><span class="nav-number">4.2.4.</span> <span class="nav-text">Raw updates</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Raw-deletes"><span class="nav-number">4.2.5.</span> <span class="nav-text">Raw deletes</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chaining-with-the-query-builder"><span class="nav-number">4.3.</span> <span class="nav-text">Chaining with the query builder</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Constraining-methods"><span class="nav-number">4.3.1.</span> <span class="nav-text">Constraining methods</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Modifying-methods"><span class="nav-number">4.3.2.</span> <span class="nav-text">Modifying methods</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Eending-returning-methods"><span class="nav-number">4.3.3.</span> <span class="nav-text">Eending/returning methods</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Writing-raw-queries-inside-query-builder-methods-with-DB-raw"><span class="nav-number">4.3.4.</span> <span class="nav-text">Writing raw queries inside query builder methods with DB::raw</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Joins"><span class="nav-number">4.3.5.</span> <span class="nav-text">Joins</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Unions"><span class="nav-number">4.3.6.</span> <span class="nav-text">Unions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Inserts"><span class="nav-number">4.3.7.</span> <span class="nav-text">Inserts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Updates"><span class="nav-number">4.3.8.</span> <span class="nav-text">Updates</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deletes"><span class="nav-number">4.3.9.</span> <span class="nav-text">Deletes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSON-operations"><span class="nav-number">4.3.10.</span> <span class="nav-text">JSON operations</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yi Yang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

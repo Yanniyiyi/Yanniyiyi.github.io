@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Laravel offers a custom templating engine called Blade. Echoing Data is functionally equivalent to &amp;lt;?= htmlentities($variable) ?&amp;gt;. If you want to echo without the escaping, use {!! and !!}. Note">
+<meta name="keywords" content="Laravel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2. Blade templating">
+<meta property="og:url" content="http://yoursite.com/2017/05/24/blade-templating/index.html">
+<meta property="og:site_name" content="Yi Yang&#39;s blog">
+<meta property="og:description" content="Laravel offers a custom templating engine called Blade. Echoing Data is functionally equivalent to &amp;lt;?= htmlentities($variable) ?&amp;gt;. If you want to echo without the escaping, use {!! and !!}. Note">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-22T03:38:40.959Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2. Blade templating">
+<meta name="twitter:description" content="Laravel offers a custom templating engine called Blade. Echoing Data is functionally equivalent to &amp;lt;?= htmlentities($variable) ?&amp;gt;. If you want to echo without the escaping, use {!! and !!}. Note">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/24/blade-templating/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>2. Blade templating | Yi Yang's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yi Yang's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/24/blade-templating/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yi Yang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yi Yang's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2. Blade templating
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2017-05-24 18:47:13" itemprop="dateCreated datePublished" datetime="2017-05-24T18:47:13+10:00">2017-05-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-22 14:38:40" itemprop="dateModified" datetime="2019-03-22T14:38:40+11:00">2019-03-22</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Laravel offers a custom templating engine called Blade.</p>
+<h1 id="Echoing-Data"><a href="#Echoing-Data" class="headerlink" title="Echoing Data"></a>Echoing Data</h1><p><code></code> is functionally equivalent to <code>&lt;?= htmlentities($variable) ?&gt;</code>. If you want to echo without the escaping, use {!! and !!}.</p>
+<p><strong>Note:</strong> <strong>the difference between <code></code> and <code>{!! $variable !!}</code></strong></p>
+<p>Let’s say we have a route</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Route::get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    $test = <span class="string">'&lt;span&gt;hello world&lt;/span&gt;'</span>;</span><br><span class="line">    <span class="keyword">return</span> view(<span class="string">'welcome'</span>,compact(<span class="string">'test'</span>));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>And in your welcome blade view</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; $test &#125;&#125;  // it will show <span class="tag">&lt;<span class="name">span</span>&gt;</span>hello world<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">&#123;!! $test !!&#125; // this will show hello world only, the <span class="tag">&lt;<span class="name">span</span>&gt;</span> is treated as a part of html page</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Parsed as Blade; the value of $bladeVariable is echoed to the view </span></span><br><span class="line">&#123;&#123; $bladeVariable &#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// @ is removed, and "&#123;&#123; handlebarsVariable &#125;&#125;" echoed to the view </span></span><br><span class="line"><span class="comment">// directly </span></span><br><span class="line">@&#123;&#123; handlebarsVariable &#125;&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Control-Structures"><a href="#Control-Structures" class="headerlink" title="Control Structures"></a>Control Structures</h1><h2 id="Conditionals"><a href="#Conditionals" class="headerlink" title="Conditionals"></a>Conditionals</h2><p><strong><code>@if</code></strong></p>
+<p>Syntax</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@if(count($users) === 1)</span><br><span class="line">	There is one user</span><br><span class="line">@elseif(count($users) === 2)</span><br><span class="line">	There are two users</span><br><span class="line">@else</span><br><span class="line">	There are &#123;&#123;count($users)&#125;&#125; users</span><br><span class="line">@endif</span><br></pre></td></tr></table></figure>
+<p><strong><code>@unless</code></strong> </p>
+<p>Syntax: <code>@unless</code> condition is the same as <code>&lt;?php if(!$condition) ?&gt;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@unless(count($users) &gt; 0)</span><br><span class="line">	No users</span><br><span class="line">@endunless</span><br></pre></td></tr></table></figure>
+<h2 id="Loops"><a href="#Loops" class="headerlink" title="Loops"></a>Loops</h2><p><strong><code>@for</code></strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">for</span>( $i = <span class="number">0</span>; $i &lt; $users-&gt;slotsCount(); $i++ )</span><br><span class="line">	&#123;&#123; $i &#125;&#125;</span><br><span class="line">@<span class="keyword">endfor</span></span><br></pre></td></tr></table></figure>
+<p><strong><code>@foreach</code></strong> </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">foreach</span>($users <span class="keyword">as</span> $user)</span><br><span class="line">  &#123;&#123;$user-&gt;name&#125;&#125;</span><br><span class="line">@<span class="keyword">endforeach</span></span><br></pre></td></tr></table></figure>
+<p> <strong><code>@while</code></strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">while</span>( $user = array_pop($users) )</span><br><span class="line">	&#123;&#123;$user-&gt;name&#125;&#125;</span><br><span class="line">@<span class="keyword">endwhile</span></span><br></pre></td></tr></table></figure>
+<p><strong><code>@forelse</code></strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@forelse($users <span class="keyword">as</span> $user)</span><br><span class="line">	&#123;&#123; $user-&gt;name &#125;&#125;</span><br><span class="line">@<span class="keyword">empty</span></span><br><span class="line">  	No users</span><br><span class="line">@endforelse</span><br></pre></td></tr></table></figure>
+<p><strong><code>$loop</code> within <code>@foreach</code> and <code>@forelse</code></strong></p>
+<p>Within a <strong><code>@foreach</code></strong> or <strong><code>@forelse</code></strong> loop, Laravel provides a <strong><code>$loop</code></strong> variable, it will return a stdClass object with the following properties:</p>
+<p><strong>index</strong></p>
+<blockquote>
+<p>The 0-based index of the current item in the loop; 0 would mean ‘first item’</p>
+</blockquote>
+<p><strong>iteration</strong></p>
+<blockquote>
+<p>The 1-based index of the current item in the loop; 1 would mean ‘first itme’</p>
+</blockquote>
+<p><strong>remaining</strong></p>
+<blockquote>
+<p>How many items remain in the loop, if the current item is the first of three, this will be 2</p>
+</blockquote>
+<p><strong>count</strong></p>
+<blockquote>
+<p>The count of items in loop</p>
+</blockquote>
+<p><strong>first</strong></p>
+<blockquote>
+<p>A boolean indicating whether this is the first item in the loop</p>
+</blockquote>
+<p><strong>last</strong></p>
+<blockquote>
+<p>A boolean indicating whether this is the last item in the loop</p>
+</blockquote>
+<p><strong>depth</strong></p>
+<blockquote>
+<p>How many levels deep this loop is: 1 for a loop, 2 for a loop within a loop</p>
+</blockquote>
+<p><strong>parent</strong></p>
+<blockquote>
+<p>Refers to the <code>$loop</code> variable for the parent loop item; if this loop is within another <code>@foreach</code> loop otherwise, null</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">@forelse( $users as $user)</span><br><span class="line">	There are &#123;&#123;$loop-&gt;count&#125;&#125; users.</span><br><span class="line">	&lt;li&gt; &#123;&#123; $loop-&gt;iteration &#125;&#125;: &#123;&#123; $user-&gt;name &#125;&#125;</span><br><span class="line">		@if($user-&gt;hasChildren())</span><br><span class="line">		&lt;ul&gt;</span><br><span class="line">		@foreach($user-&gt;children() as $child)</span><br><span class="line">			&lt;li&gt;&#123;&#123; $loop-&gt;parent-&gt;iteration &#125;&#125;.</span><br><span class="line">				&#123;&#123; $loop-&gt;iteration &#125;&#125;:</span><br><span class="line">				&#123;&#123; $child-&gt;name &#125;&#125;</span><br><span class="line">			&lt;/li&gt;</span><br><span class="line">		@endforeach</span><br><span class="line">	&lt;/li&gt;</span><br><span class="line">@empty</span><br><span class="line">	No users</span><br><span class="line">@endforelse</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+<p><strong><code>or</code></strong></p>
+<p>If you are not sure a variable is set or not, use <code>or</code> can set a default value.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;$title <span class="keyword">or</span> <span class="string">'Default Title'</span>&#125;&#125; <span class="comment">// if $title is not set, 'Default title' will be echoed.</span></span><br></pre></td></tr></table></figure>
+<h1 id="Template-Inheritance"><a href="#Template-Inheritance" class="headerlink" title="Template Inheritance"></a>Template Inheritance</h1><a id="more"></a>
+<p>Blade provides a structure for template inheritance that allows views to extend, modify, and include other views</p>
+<h2 id="Defining-Sections-with-section-show-and-yield"><a href="#Defining-Sections-with-section-show-and-yield" class="headerlink" title="Defining Sections with @section/@show and @yield"></a>Defining Sections with <code>@section</code>/<code>@show</code> and <code>@yield</code></h2><p>Let’s start with the layout</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;! resources/views/layouts/master.blade.php --&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">	&lt;head&gt;</span><br><span class="line">		// the default content in @yield(&apos;title&apos;) will be shown</span><br><span class="line">		// if it&apos;s never extended</span><br><span class="line">		&lt;title&gt; My Site | @yield(&apos;title&apos;, &apos;Homepage&apos;)&lt;/title&gt;</span><br><span class="line">	&lt;/head&gt;</span><br><span class="line">	&lt;body&gt;</span><br><span class="line">		&lt;div&gt;</span><br><span class="line">			@yield(&apos;content&apos;)</span><br><span class="line">		&lt;/div&gt;</span><br><span class="line">		@section(&apos;footerScripts&apos;)</span><br><span class="line">			&lt;script src=&quot;app.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">		@show</span><br><span class="line">	&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>We defined 3 Blade directives, all three are defining that the section can be extended later. And all three are defining what to do if the section isn’t extended.</p>
+<p>Now we can extend the master layout</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// We define that the view is extending master.blade.php</span><br><span class="line">@extend(&apos;layout.master&apos;) </span><br><span class="line">@section(&apos;title&apos;,&apos;Dashboard&apos;)@endsection</span><br><span class="line">@section(&apos;content&apos;)</span><br><span class="line">	Welcome to Dashboard</span><br><span class="line">@endsection</span><br><span class="line">// we can either include the content from the parent by using </span><br><span class="line">// the @parent and then add to it. Or we can simply overwrite</span><br><span class="line">// anything defined in the parent for this section by without</span><br><span class="line">// section</span><br><span class="line">@section(&apos;footerScripts&apos;)</span><br><span class="line">	@parent</span><br><span class="line">	&lt;script src=&quot;dashboard.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">@endsection</span><br></pre></td></tr></table></figure>
+<p>We can either include the content from the parent by using the <code>@parent</code> and then add something to it. Or, without <code>@parent</code>, we can simply overwrite anything defined in the parent for this section by without section.</p>
+<p><strong>Note: the difference between <code>@show</code> and <code>@endsection</code>:</strong></p>
+<blockquote>
+<p>Use <code>@show</code> when you’re defining the place for a section, in the parent template. Use <code>@endsection</code> when you’re defining the content for a template in a child template</p>
+</blockquote>
+<h2 id="include"><a href="#include" class="headerlink" title="@include"></a><code>@include</code></h2><p><code>@include</code> allows us to pull a view into another view.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- resources/views/sign-up-button.blade.php --&gt; </span><br><span class="line">&lt;a class=&quot;button button--callout&quot; data-page-name=&quot;&#123;&#123; $pageName &#125;&#125;&quot;&gt;</span><br><span class="line">	&lt;i class=&quot;exclamation-icon&quot;&gt;&lt;/i&gt; </span><br><span class="line">	&#123;&#123; $text &#125;&#125; </span><br><span class="line">&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- resources/views/home.blade.php --&gt; </span><br><span class="line">&lt;div class=&quot;content&quot; data-page-name=&quot;&#123;&#123; $pageName &#125;&#125;&quot;&gt; </span><br><span class="line">  &lt;p&gt;Here&apos;s why you should sign up for our app: &lt;strong&gt;It&apos;s Great.&lt;/strong&gt;&lt;/p&gt; </span><br><span class="line">  &lt;!-- pull the button and pass value to it --&gt;</span><br><span class="line">  @include(&apos;sign-up-button&apos;, [&apos;text&apos; =&gt; &apos;See just how great it is&apos;]) </span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="each"><a href="#each" class="headerlink" title="@each"></a><code>@each</code></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- resources/views/sidebar.blade.php --&gt; </span><br><span class="line">&lt;div class=&quot;sidebar&quot;&gt;</span><br><span class="line">	@each(&apos;partials.module&apos;, $modules, &apos;modules&apos;, &apos;partials.empty-module&apos;)</span><br><span class="line">&lt;/div&gt; </span><br><span class="line"></span><br><span class="line">&lt;!-- resources/views/partials/module.blade.php --&gt; </span><br><span class="line">&lt;div class=&quot;sidebar-module&quot;&gt;</span><br><span class="line">	&lt;h1&gt;&#123;&#123; $module-&gt;title &#125;&#125;&lt;/h1&gt; </span><br><span class="line">&lt;/div&gt; </span><br><span class="line"></span><br><span class="line">&lt;!-- resources/views/partials/empty-module.blade.php --&gt; </span><br><span class="line">&lt;div class=&quot;sidebar-module&quot;&gt;</span><br><span class="line">	No modules :( </span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>Consider <strong><code>@each</code></strong> syntax. The first parameter is the name of the view partial. The sctiond is the array or collection to iterate over. The thrid is the variable name that each item will be passed to the view as. And the optional fourth parameter is the view to show if the array or collection is empty.</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Laravel/" rel="tag"># Laravel</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/24/Laravel-Routing-and-Controllers/" rel="next" title="1. Laravel Routing and Controllers">
+                <i class="fa fa-chevron-left"></i> 1. Laravel Routing and Controllers
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/26/collecting-and-handling-user-data/" rel="prev" title="3. Collecting and Handling User Data">
+                3. Collecting and Handling User Data <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Yi Yang</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Echoing-Data"><span class="nav-number">1.</span> <span class="nav-text">Echoing Data</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Control-Structures"><span class="nav-number">2.</span> <span class="nav-text">Control Structures</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Conditionals"><span class="nav-number">2.1.</span> <span class="nav-text">Conditionals</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Loops"><span class="nav-number">2.2.</span> <span class="nav-text">Loops</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Template-Inheritance"><span class="nav-number">3.</span> <span class="nav-text">Template Inheritance</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Defining-Sections-with-section-show-and-yield"><span class="nav-number">3.1.</span> <span class="nav-text">Defining Sections with @section/@show and @yield</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#include"><span class="nav-number">3.2.</span> <span class="nav-text">@include</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#each"><span class="nav-number">3.3.</span> <span class="nav-text">@each</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yi Yang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

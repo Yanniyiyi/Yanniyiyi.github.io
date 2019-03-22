@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Introduction to ElquentEloquent is an ActiveRecord ORM. It’s a database abstraction layer that provides a single interface to interact with multiple database types. Creating and Defining Eloquent Mode">
+<meta name="keywords" content="Laravel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4.2 Database and Eloquent">
+<meta property="og:url" content="http://yoursite.com/2017/05/28/database-and-eloquent-2/index.html">
+<meta property="og:site_name" content="Yi Yang&#39;s blog">
+<meta property="og:description" content="Introduction to ElquentEloquent is an ActiveRecord ORM. It’s a database abstraction layer that provides a single interface to interact with multiple database types. Creating and Defining Eloquent Mode">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-22T03:27:52.566Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="4.2 Database and Eloquent">
+<meta name="twitter:description" content="Introduction to ElquentEloquent is an ActiveRecord ORM. It’s a database abstraction layer that provides a single interface to interact with multiple database types. Creating and Defining Eloquent Mode">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/28/database-and-eloquent-2/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>4.2 Database and Eloquent | Yi Yang's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yi Yang's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/28/database-and-eloquent-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yi Yang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yi Yang's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">4.2 Database and Eloquent
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2017-05-28 16:25:15" itemprop="dateCreated datePublished" datetime="2017-05-28T16:25:15+10:00">2017-05-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-22 14:27:52" itemprop="dateModified" datetime="2019-03-22T14:27:52+11:00">2019-03-22</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Introduction-to-Elquent"><a href="#Introduction-to-Elquent" class="headerlink" title="Introduction to Elquent"></a>Introduction to Elquent</h1><p>Eloquent is an ActiveRecord ORM. It’s a database abstraction layer that provides a single interface to interact with multiple database types.</p>
+<h2 id="Creating-and-Defining-Eloquent-Models"><a href="#Creating-and-Defining-Eloquent-Models" class="headerlink" title="Creating and Defining Eloquent Models"></a>Creating and Defining Eloquent Models</h2><p>First, we can create a model like this:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan make:model User</span><br></pre></td></tr></table></figure>
+<p>This is what we’ll get in <strong><em>app/User.php</em></strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Database</span>\<span class="title">Eloquent</span>\<span class="title">Model</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Model</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If you want to automatically create a migration when you create the model, pass -m or –migration flag</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan make:model User -m</span><br></pre></td></tr></table></figure>
+<h3 id="Table-name"><a href="#Table-name" class="headerlink" title="Table name"></a>Table name</h3><p>The default behavior for the table names is that Laravel ‘snake cases’ and pluralizes your class name, so <strong><em>Secondary</em>User</strong> will access a table named <strong><em>secondary_users</em></strong>.</p>
+<p>If you want to customize the name, set the <code>$table</code> property on the model:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> $table = <span class="string">'users_secondary'</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="Primary-key"><a href="#Primary-key" class="headerlink" title="Primary key"></a>Primary key</h3><p>Laravel assumes, by default, each table will have an autoincrementing integer primary key, and it will be named <code>id</code></p>
+<p>If you want to customize the name of primary key, change the <code>$primaryKey</code> property</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> $primaryKey = <span class="string">'contact_id'</span>;</span><br></pre></td></tr></table></figure>
+<p>And if you want to set it to be nonincrementing, use</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> $incrementing = <span class="keyword">false</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="Timestamps"><a href="#Timestamps" class="headerlink" title="Timestamps"></a>Timestamps</h3><p>Eloquent expects every table to have <code>created_at</code> and <code>updated_at</code> timestamp columns. If your table wont’ have them, disable the <code>$timestamps</code> functionality</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> $timestamps = <span class="keyword">false</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="Retrieving-Data-with-Eloquent"><a href="#Retrieving-Data-with-Eloquent" class="headerlink" title="Retrieving Data with Eloquent"></a>Retrieving Data with Eloquent</h2><a id="more"></a>
+<p>Most of the time we pull data from database with Eloquent, we’ll use static calls on Eloquent model</p>
+<p>Everything we can do on <code>DB</code> facade we can do on our Eloquent objects.</p>
+<h3 id="Get-all"><a href="#Get-all" class="headerlink" title="Get all"></a>Get all</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Users::all(); <span class="comment">// return all users in database</span></span><br></pre></td></tr></table></figure>
+<h3 id="Get-one"><a href="#Get-one" class="headerlink" title="Get one"></a>Get one</h3><p>we can use <code>first()</code> to return only the first record from a query, or <code>find()</code> to pull just the record with the provided ID. For either, we can append <code>orFail</code> to the method name</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User::where(<span class="string">'is_verified'</span>,<span class="keyword">true</span>)-&gt;first();</span><br><span class="line">User::find($userId);</span><br></pre></td></tr></table></figure>
+<p>Any single return will return an instance of the Eloquent class. </p>
+<h3 id="Get-Many"><a href="#Get-Many" class="headerlink" title="Get Many"></a>Get Many</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User::where(<span class="string">'vip'</span>,<span class="keyword">true</span>)-&gt;get();</span><br></pre></td></tr></table></figure>
+<p>It will return collections.</p>
+<h3 id="Chunking-responses-with-chunk"><a href="#Chunking-responses-with-chunk" class="headerlink" title="Chunking responses with chunk()"></a>Chunking responses with <code>chunk()</code></h3><p>If you’ve need to deal with a large amount of records at a time. Laravel makes it possible to break your requests into maller pieces( chunks) and process them in batches.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">User::chunk(<span class="number">100</span>, <span class="function"><span class="keyword">function</span><span class="params">($users)</span></span>&#123;</span><br><span class="line">  <span class="keyword">foreach</span>($users <span class="keyword">as</span> $user)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="Aggregates"><a href="#Aggregates" class="headerlink" title="Aggregates"></a>Aggregates</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">User::where(<span class="string">'vip'</span>,<span class="keyword">true</span>)-&gt;count();</span><br><span class="line">User::sum(<span class="string">'votes'</span>);</span><br><span class="line">User::avg(<span class="string">'skill_level'</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="Inserts-and-Updates-with-Eloquent"><a href="#Inserts-and-Updates-with-Eloquent" class="headerlink" title="Inserts and Updates with Eloquent"></a>Inserts and Updates with Eloquent</h2><h3 id="Inserts"><a href="#Inserts" class="headerlink" title="Inserts"></a>Inserts</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$user = <span class="keyword">new</span> User;</span><br><span class="line">$user-&gt;name = <span class="string">'hello'</span>;</span><br><span class="line">$user-&gt;email = <span class="string">'world@gmail.com'</span>;</span><br><span class="line">$user-&gt;save();</span><br><span class="line"></span><br><span class="line"><span class="comment">// or</span></span><br><span class="line"></span><br><span class="line">$user = <span class="keyword">new</span> User([</span><br><span class="line">  <span class="string">'name'</span> =&gt; <span class="string">'hello'</span>,</span><br><span class="line">  <span class="string">'email'</span> =&gt; <span class="string">'world'</span></span><br><span class="line">]);</span><br><span class="line">$user-&gt;save();</span><br></pre></td></tr></table></figure>
+<p>Until we <code>save()</code>, this instance has never been saved to the database.</p>
+<p>This means it doesn’t have an id. But when you use <code>Model::create()</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$user = User::create([</span><br><span class="line">  <span class="string">'name'</span> =&gt; <span class="string">'hello'</span>,</span><br><span class="line">  <span class="string">'email'</span> =&gt; <span class="string">'world@gmail.com'</span></span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+<p>You don’t need to call <code>save()</code> , as it’s part of the <code>Model::create()</code> function.</p>
+<h3 id="Updates"><a href="#Updates" class="headerlink" title="Updates"></a>Updates</h3><p>We can call the <code>update()</code> method to updte one or more record</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$user = User::find(1);</span><br><span class="line">$user-&gt;email = &apos;hello@gmail.com&apos;;</span><br><span class="line">$user-&gt;save();</span><br><span class="line"></span><br><span class="line">//or</span><br><span class="line"></span><br><span class="line">User::where(&apos;created_at&apos;,&apos;&lt;&apos;,Carbon::now-&gt;subYear())-&gt;update([</span><br><span class="line">  &apos;longeviy&apos; =&gt; &apos;ancient&apos;</span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+<p>When we use the <code>Model::update()</code> we don’t need to call <code>save()</code></p>
+<h3 id="Mass-assignment"><a href="#Mass-assignment" class="headerlink" title="Mass assignment"></a>Mass assignment</h3><p>When you define a model’s fillable or guarded properties, we can create or update a record like this:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">update</span><span class="params">(User $user, Request $request)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  $contact-&gt;update($request-&gt;all());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// or</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">store</span><span class="params">(Request $request)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  User::create($request-&gt;only([<span class="string">'name'</span>,<span class="string">'email'</span>]));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="firstOrCreate-and-firstOrNew"><a href="#firstOrCreate-and-firstOrNew" class="headerlink" title="firstOrCreate() and firstOrNew()"></a>firstOrCreate() and firstOrNew()</h3><p>The <code>firstOr*()</code> function is used to tell Laravel that ‘give me an instance with these properties or if ti doesn’t exist, create it’.</p>
+<p>Those two methods take an array of keys and values as their first parameter</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$user = User::firstOrCreate([<span class="string">'name'</span>=&gt;<span class="string">'hello'</span>,<span class="string">'email'</span>=&gt;<span class="string">'world'</span>]);</span><br></pre></td></tr></table></figure>
+<p>They’ll both look for and retrieve the first record matching those parameters, and if there are no matching records, they’ll create an instance with thsoe properties;</p>
+<p><strong>The different is <code>firstOrCreate()</code> will persist that instance to the database and then return it, while <code>firstOrNew()</code> will return it without saving it.</strong></p>
+<h2 id="Deleting-with-Eloquent"><a href="#Deleting-with-Eloquent" class="headerlink" title="Deleting with Eloquent"></a>Deleting with Eloquent</h2><h3 id="Normal-deletes"><a href="#Normal-deletes" class="headerlink" title="Normal deletes"></a>Normal deletes</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$contact = Contact::find(<span class="number">1</span>);</span><br><span class="line">$contact-&gt;delete();</span><br><span class="line"></span><br><span class="line"><span class="comment">//or</span></span><br><span class="line"></span><br><span class="line">Contact::destory(<span class="number">1</span>);</span><br><span class="line">Contact::destory([<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]);</span><br></pre></td></tr></table></figure>
+<h3 id="Soft-deletes"><a href="#Soft-deletes" class="headerlink" title="Soft deletes"></a>Soft deletes</h3><p>Soft deletes mark databse row as deleted without actually deleting them from the database. In Laravel, every query will be scoped to ignore the soft deleted data, unless you explicitly ask to bring them back.</p>
+<p>Eloquent’s soft delete functionality requires a <code>deleted_at</code> column to be added to the table.</p>
+<h4 id="Enabling-soft-deletes"><a href="#Enabling-soft-deletes" class="headerlink" title="Enabling soft deletes"></a>Enabling soft deletes</h4><p>There are three things to do to enable soft deletes</p>
+<ol>
+<li><p>Adding the deleted_at column in a migration using <code>softDeletes()</code> method.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Schema::create(<span class="string">'Users'</span>, <span class="function"><span class="keyword">function</span><span class="params">(Blueprint $table)</span></span>&#123;</span><br><span class="line">  $table-&gt;softDeletes()</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Importing the <code>SoftDeletes</code> trait in the model.</p>
+</li>
+<li><p>Adding teh <code>deleted_at</code> column to your <code>$dates</code> property.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Database</span>\<span class="title">Eloquent</span>\<span class="title">Model</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Database</span>\<span class="title">Eloquent</span>\<span class="title">SoftDeletes</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Contact</span> <span class="keyword">extends</span> <span class="title">Model</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="keyword">use</span> <span class="title">SoftDeletes</span>; <span class="comment">// use the trait</span></span><br><span class="line">  <span class="keyword">protected</span> $dates = [<span class="string">'deleted_at'</span>]; <span class="comment">// mark this column as a date</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>Once you make these changes, every <code>delete()</code> and <code>destory()</code> call will now set the <code>delete_at</code> column on your row to be the current data and time instead deleting that row.</p>
+<h4 id="Querying-with-soft-deletes"><a href="#Querying-with-soft-deletes" class="headerlink" title="Querying with soft deletes"></a>Querying with soft deletes</h4><p>First, you can add soft-deleted items to a query</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$users = User::withTrashed()-&gt;get();</span><br></pre></td></tr></table></figure>
+<p>Next, you can use <code>trashed()</code> method to see if a particular instance has been soft deleted</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>($user-&gt;trashed())</span><br><span class="line">&#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Finally, you can get <strong><em>only</em></strong> soft-deleted items</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$user = User::onlyTrashed()-&gt;get();</span><br></pre></td></tr></table></figure>
+<h4 id="Restoring-soft-deleted-items"><a href="#Restoring-soft-deleted-items" class="headerlink" title="Restoring soft-deleted items"></a>Restoring soft-deleted items</h4><p>If you want to resotre a soft-deleted item, you can run <code>resotre()</code> method on an instance or a query</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$user-&gt;restore();</span><br><span class="line">User::onlyTrashed()-&gt;restore();</span><br></pre></td></tr></table></figure>
+<h4 id="Force-deleting-soft-deleted-entities"><a href="#Force-deleting-soft-deleted-entities" class="headerlink" title="Force deleting soft-deleted entities"></a>Force deleting soft-deleted entities</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User::onlyTrashed()-&gt;forceDelete();</span><br></pre></td></tr></table></figure>
+<h2 id="Scopes"><a href="#Scopes" class="headerlink" title="Scopes"></a>Scopes</h2><p>Local and global scopes in Eloquent allow you to define prebuilt ‘scopes’ that you can use either every time a model is queried(‘global’) or every time you query it with a particular method chain(‘local’)</p>
+<h3 id="Local-scopes"><a href="#Local-scopes" class="headerlink" title="Local scopes"></a>Local scopes</h3><p>Local scopes are the simplest to understand</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$vips = User::where(<span class="string">'vip'</span>,<span class="keyword">true</span>)-&gt;where(<span class="string">'trial'</span>,<span class="keyword">false</span>)-&gt;get();</span><br></pre></td></tr></table></figure>
+<p>To avoid writing above code again and again to fetch the ‘active vip’, we can define a scope like this in our Model</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">scopeActiveVips</span><span class="params">($query)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> $query-&gt;where(<span class="string">'vip'</span>,<span class="keyword">true</span>)-&gt;where(<span class="string">'trial'</span>,<span class="keyword">false</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Now we can use it like this</span></span><br><span class="line">User::activeVips()-&gt;get();</span><br></pre></td></tr></table></figure>
+<p>You can also define scope with parameters</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">scopeStatus</span><span class="params">($query, $status)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> $query-&gt;where(<span class="string">'status'</span>,$status);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Now we can use it like this</span></span><br><span class="line">User::status(<span class="string">'frined'</span>)-&gt;get();</span><br></pre></td></tr></table></figure>
+<p>To define a local scope, we add a method to the Eloquent class that begins with “scope” and then contains the title-cased version of the scope name. This method is passed a query builder and needs to return a query builder, but of course you can modify the query before returning—that’s the whole point.</p>
+<h3 id="Global-scopes"><a href="#Global-scopes" class="headerlink" title="Global scopes"></a>Global scopes</h3><p>The global scope will be applied on every query made from a given model.</p>
+<p>There are two way to define a global scope:</p>
+<ol>
+<li><p>Using an closure</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="keyword">protected</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">boot</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">parent</span>::boot();</span><br><span class="line">    <span class="keyword">static</span>::addGlobalScope(<span class="string">'active'</span>,<span class="function"><span class="keyword">function</span><span class="params">(Illuminate\Database\Eloquent\Builder $builder)</span></span>&#123;</span><br><span class="line">      $builder-&gt;where(<span class="string">'active'</span>,<span class="keyword">true</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Using an entire class</p>
+<p>Create a class that implements <strong><em>Illuminate\Database\Eloquent\Scope</em></strong>, that mean it will have an <code>apply()</code> method that takes an instance of a query builder and an instance of the model.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">App</span>\<span class="title">Scopes</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Database</span>\<span class="title">Eloquent</span>\<span class="title">Scope</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Database</span>\<span class="title">Eloquent</span>\<span class="title">Model</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Database</span>\<span class="title">Eloquent</span>\<span class="title">Builder</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ActiveScope</span> <span class="keyword">extends</span> <span class="title">Scope</span></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">apply</span><span class="params">(Builder $builder, Model $model)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> $builder-&gt;where(<span class="string">'active'</span>,<span class="keyword">true</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>To apply this scope to a model, once again override the parent’s <code>boot()</code> method and call <code>addGlobalScope()</code> on the call using <code>static</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">boot</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">parent</span>::boot();</span><br><span class="line">    <span class="keyword">static</span>::addGlobalScope(<span class="keyword">new</span> ActiveScope);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="Removing-global-scopes"><a href="#Removing-global-scopes" class="headerlink" title="Removing global scopes"></a>Removing global scopes</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// remove global scope added by a closure</span><br><span class="line">User::withoutGlobalScope(&apos;active&apos;)-&gt;get();</span><br><span class="line"></span><br><span class="line">// remove a global scope added by a class</span><br><span class="line">User::withoutGlobalScope(ActiveScope::class)-&gt;get();</span><br><span class="line"></span><br><span class="line">// remove two global scopes added by classes</span><br><span class="line">User::withoutGlobalScope([ActiveScople::class,VipScope::class])-&gt;get();</span><br><span class="line"></span><br><span class="line">// remove all global scope for the model</span><br><span class="line">User::withoutGlobalScopes()-&gt;get();</span><br></pre></td></tr></table></figure>
+<h2 id="Customizing-Field-Interactions-with-Accessors-Mutators-and-Attribute-Casting"><a href="#Customizing-Field-Interactions-with-Accessors-Mutators-and-Attribute-Casting" class="headerlink" title="Customizing Field Interactions with Accessors, Mutators, and Attribute Casting"></a>Customizing Field Interactions with Accessors, Mutators, and Attribute Casting</h2><h3 id="Accessor"><a href="#Accessor" class="headerlink" title="Accessor"></a>Accessor</h3><p>Accessors allow you to define custom attributes on your Eloquent models for when you are reading data from the model instance.</p>
+<p>You can define an accessor by writing a method on your moel with the following structure: <strong><em>get{PascalCasedPropertyName}Attribute</em></strong>. So, if you property name is <strong><em>first_name</em></strong>, the accessor method would be named <strong><em>getFirstNameAttribute</em></strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Model</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getNameAttribute</span><span class="params">($value)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> $value ?:<span class="string">'(No name provided)'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//we can use it like this</span></span><br><span class="line">$name = $user-&gt;name;</span><br></pre></td></tr></table></figure>
+<p>But we can also use accessors to define attributes that never existed in the database</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Model</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getFullNameAttribute</span><span class="params">()</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;first_name. <span class="string">' '</span> . <span class="keyword">$this</span>-&gt;last_name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//we can use it like this:</span></span><br><span class="line">$fullname = $user-&gt;full_name</span><br></pre></td></tr></table></figure>
+<h3 id="Mutators"><a href="#Mutators" class="headerlink" title="Mutators"></a>Mutators</h3><p>Mutators work the same way as accessor, except they’re for determining how to process setting the data instead of getting it</p>
+<p>You define a mutator by writing a method on your model with the following structure: <strong><em>set{PascalCasedPropertyName}</em></strong> attribute.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Model</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setNameAttribute</span><span class="params">($value)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;attributes[<span class="string">'amount'</span>] = $value &gt; <span class="number">0</span> ? $value : <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//we can use it like this</span></span><br><span class="line">$user-&gt;amount = <span class="number">15</span>;</span><br></pre></td></tr></table></figure>
+<p>But we can also use mutators to define attributes that never existed in the database</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Order</span> <span class="keyword">extends</span> <span class="title">Model</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setWorkgroupNameAttribute</span><span class="params">($workgroupName)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;attributes[<span class="string">'email'</span>] = <span class="string">"&#123;$workgroupName&#125;@ourcompany.com"</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// we can use it like this</span></span><br><span class="line">$user-&gt;workgroup_name = <span class="string">'hello'</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="Attribute-casting"><a href="#Attribute-casting" class="headerlink" title="Attribute casting"></a>Attribute casting</h3><p>It allows you to define that any of your columns should always be treated, both on read and on write, as if you are of a particular data type</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Contact</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="keyword">protected</span> $casts = [</span><br><span class="line">    <span class="string">'vip'</span> =&gt; <span class="string">'boolean'</span>,</span><br><span class="line">    <span class="string">'children_names'</span> =&gt; <span class="string">'array'</span></span><br><span class="line">   ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Date-mutators"><a href="#Date-mutators" class="headerlink" title="Date mutators"></a>Date mutators</h3><p>You can choose for particular columns to be mutated as timestamp columns by adding them to the dates array</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Contact</span><br><span class="line">&#123;</span><br><span class="line">  protected $dates = [</span><br><span class="line">    &apos;met_at&apos;</span><br><span class="line">  ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Eloquent-Collection"><a href="#Eloquent-Collection" class="headerlink" title="Eloquent Collection"></a>Eloquent Collection</h1><p>When you make any query call in Eloquent that has the potential to return multiple row, instead of an array they’ll come packaged in an Eloquent collection, which is a specialized type of collection.</p>
+<p><a href="https://laravel.com/docs/5.4/collections" target="_blank" rel="noopener">check the collection document</a></p>
+<h1 id="Eloquent-Serializtion"><a href="#Eloquent-Serializtion" class="headerlink" title="Eloquent Serializtion"></a>Eloquent Serializtion</h1><h2 id="Returning-models-difrectly-from-route-methods"><a href="#Returning-models-difrectly-from-route-methods" class="headerlink" title="Returning models difrectly from route methods"></a>Returning models difrectly from route methods</h2><p>If you return the result of an Eloquent call in a controller, it will be automatically cast to a string, and therefore returned as JSON.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Route::get(<span class="string">'api/contacts'</span>,<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> Contact::all();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="Hiding-attributes-from-JSON"><a href="#Hiding-attributes-from-JSON" class="headerlink" title="Hiding attributes from JSON"></a>Hiding attributes from JSON</h2><p>You can either blacklist attributes, hiding the ones you list:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Contact</span> <span class="keyword">extends</span> <span class="title">Model</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> $hidden = [<span class="string">'password'</span>,<span class="string">'remember_token'</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>or whitelist attributes, showing only the ones you list:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Contact</span> <span class="keyword">extends</span> <span class="title">Model</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> $visible = [<span class="string">'name'</span>,<span class="string">'email'</span>,<span class="string">'status'</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This also works for relationships</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Model</span> </span></span><br><span class="line"><span class="class"></span>&#123; </span><br><span class="line">	<span class="keyword">public</span> $hidden = [<span class="string">'contacts'</span>]; </span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">contacts</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">$this</span>-&gt;hasMany(Contact::class); </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Eloquent-Relationships"><a href="#Eloquent-Relationships" class="headerlink" title="Eloquent Relationships"></a>Eloquent Relationships</h1><p>In a relational database model, it’s expected that you will have tables that are related to each other—hence the name. Eloquent provides simple and powerful tools to make the process of relating your database tables easier than ever before.</p>
+<h2 id="One-to-One"><a href="#One-to-One" class="headerlink" title="One to One"></a>One to One</h2><p>Let’s start simple: a <strong>Contact</strong> has <strong>one</strong> <strong>PhoneNumber</strong></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Laravel/" rel="tag"># Laravel</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/27/database-and-eloquent/" rel="next" title="4.1 Database and Eloquent">
+                <i class="fa fa-chevron-left"></i> 4.1 Database and Eloquent
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/29/secret-of-the-javascript-ninja-exercise-answers/" rel="prev" title="secret-of-the-javascript-ninja-exercise-answers">
+                secret-of-the-javascript-ninja-exercise-answers <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Yi Yang</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction-to-Elquent"><span class="nav-number">1.</span> <span class="nav-text">Introduction to Elquent</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Creating-and-Defining-Eloquent-Models"><span class="nav-number">1.1.</span> <span class="nav-text">Creating and Defining Eloquent Models</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Table-name"><span class="nav-number">1.1.1.</span> <span class="nav-text">Table name</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Primary-key"><span class="nav-number">1.1.2.</span> <span class="nav-text">Primary key</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Timestamps"><span class="nav-number">1.1.3.</span> <span class="nav-text">Timestamps</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Retrieving-Data-with-Eloquent"><span class="nav-number">1.2.</span> <span class="nav-text">Retrieving Data with Eloquent</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Get-all"><span class="nav-number">1.2.1.</span> <span class="nav-text">Get all</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Get-one"><span class="nav-number">1.2.2.</span> <span class="nav-text">Get one</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Get-Many"><span class="nav-number">1.2.3.</span> <span class="nav-text">Get Many</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chunking-responses-with-chunk"><span class="nav-number">1.2.4.</span> <span class="nav-text">Chunking responses with chunk()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Aggregates"><span class="nav-number">1.2.5.</span> <span class="nav-text">Aggregates</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Inserts-and-Updates-with-Eloquent"><span class="nav-number">1.3.</span> <span class="nav-text">Inserts and Updates with Eloquent</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Inserts"><span class="nav-number">1.3.1.</span> <span class="nav-text">Inserts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Updates"><span class="nav-number">1.3.2.</span> <span class="nav-text">Updates</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mass-assignment"><span class="nav-number">1.3.3.</span> <span class="nav-text">Mass assignment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#firstOrCreate-and-firstOrNew"><span class="nav-number">1.3.4.</span> <span class="nav-text">firstOrCreate() and firstOrNew()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deleting-with-Eloquent"><span class="nav-number">1.4.</span> <span class="nav-text">Deleting with Eloquent</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Normal-deletes"><span class="nav-number">1.4.1.</span> <span class="nav-text">Normal deletes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Soft-deletes"><span class="nav-number">1.4.2.</span> <span class="nav-text">Soft deletes</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Enabling-soft-deletes"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">Enabling soft deletes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Querying-with-soft-deletes"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">Querying with soft deletes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Restoring-soft-deleted-items"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">Restoring soft-deleted items</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Force-deleting-soft-deleted-entities"><span class="nav-number">1.4.2.4.</span> <span class="nav-text">Force deleting soft-deleted entities</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scopes"><span class="nav-number">1.5.</span> <span class="nav-text">Scopes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Local-scopes"><span class="nav-number">1.5.1.</span> <span class="nav-text">Local scopes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Global-scopes"><span class="nav-number">1.5.2.</span> <span class="nav-text">Global scopes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Removing-global-scopes"><span class="nav-number">1.5.3.</span> <span class="nav-text">Removing global scopes</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Customizing-Field-Interactions-with-Accessors-Mutators-and-Attribute-Casting"><span class="nav-number">1.6.</span> <span class="nav-text">Customizing Field Interactions with Accessors, Mutators, and Attribute Casting</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Accessor"><span class="nav-number">1.6.1.</span> <span class="nav-text">Accessor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mutators"><span class="nav-number">1.6.2.</span> <span class="nav-text">Mutators</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Attribute-casting"><span class="nav-number">1.6.3.</span> <span class="nav-text">Attribute casting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Date-mutators"><span class="nav-number">1.6.4.</span> <span class="nav-text">Date mutators</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Eloquent-Collection"><span class="nav-number">2.</span> <span class="nav-text">Eloquent Collection</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Eloquent-Serializtion"><span class="nav-number">3.</span> <span class="nav-text">Eloquent Serializtion</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Returning-models-difrectly-from-route-methods"><span class="nav-number">3.1.</span> <span class="nav-text">Returning models difrectly from route methods</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hiding-attributes-from-JSON"><span class="nav-number">3.2.</span> <span class="nav-text">Hiding attributes from JSON</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Eloquent-Relationships"><span class="nav-number">4.</span> <span class="nav-text">Eloquent Relationships</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#One-to-One"><span class="nav-number">4.1.</span> <span class="nav-text">One to One</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yi Yang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

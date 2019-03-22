@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Last week, I created a news applicaiton by using Vue.js and ElementUI Install VueInstall Vue.js by using the cli. See the document here Install ElementUIInstall ElementUI. See the document here Apply">
+<meta name="keywords" content="Vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vuenews-practice">
+<meta property="og:url" content="http://yoursite.com/2017/06/16/vuenews-practice/index.html">
+<meta property="og:site_name" content="Yi Yang&#39;s blog">
+<meta property="og:description" content="Last week, I created a news applicaiton by using Vue.js and ElementUI Install VueInstall Vue.js by using the cli. See the document here Install ElementUIInstall ElementUI. See the document here Apply">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-22T03:29:36.891Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vuenews-practice">
+<meta name="twitter:description" content="Last week, I created a news applicaiton by using Vue.js and ElementUI Install VueInstall Vue.js by using the cli. See the document here Install ElementUIInstall ElementUI. See the document here Apply">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/16/vuenews-practice/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>vuenews-practice | Yi Yang's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yi Yang's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/16/vuenews-practice/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yi Yang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yi Yang's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">vuenews-practice
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2017-06-16 15:47:42" itemprop="dateCreated datePublished" datetime="2017-06-16T15:47:42+10:00">2017-06-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-22 14:29:36" itemprop="dateModified" datetime="2019-03-22T14:29:36+11:00">2019-03-22</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Last week, I created a news applicaiton by using Vue.js and ElementUI</p>
+<h1 id="Install-Vue"><a href="#Install-Vue" class="headerlink" title="Install Vue"></a>Install Vue</h1><p>Install Vue.js by using the cli.</p>
+<p>See the document <a href="https://vuejs.org/v2/guide/installation.html" target="_blank" rel="noopener">here</a></p>
+<h1 id="Install-ElementUI"><a href="#Install-ElementUI" class="headerlink" title="Install ElementUI"></a>Install ElementUI</h1><p>Install ElementUI. See the document <a href="http://element.eleme.io/#/en-US/component/installation" target="_blank" rel="noopener">here</a></p>
+<h1 id="Apply-an-API-key-from-News-API"><a href="#Apply-an-API-key-from-News-API" class="headerlink" title="Apply an API key from News API"></a>Apply an API key from News API</h1><p>Apply from <a href="https://newsapi.org/" target="_blank" rel="noopener">here</a></p>
+<h1 id="Install-Vue-axios"><a href="#Install-Vue-axios" class="headerlink" title="Install Vue-axios"></a>Install Vue-axios</h1><p>Vue-axios is a tool for sending get request in our application.</p>
+<p>Follow the document <a href="https://www.npmjs.com/package/vue-axios" target="_blank" rel="noopener">here</a> </p>
+<h1 id="Install-vue-lazyload"><a href="#Install-vue-lazyload" class="headerlink" title="Install vue-lazyload"></a>Install vue-lazyload</h1><p>A Vue.js plugin for lazyload your Image or Component in the application.</p>
+<p>Install from <a href="https://github.com/hilongjw/vue-lazyload" target="_blank" rel="noopener">here</a></p>
+<h1 id="Install-Vuex"><a href="#Install-Vuex" class="headerlink" title="Install Vuex"></a>Install Vuex</h1><blockquote>
+<p>Vuex is a <strong>state management pattern + library</strong> for Vue.js applications. It serves as a centralized store for all the components in an application, with rules ensuring that the state can only be mutated in a predictable fashion. It also integrates with Vue’s official <a href="https://github.com/vuejs/vue-devtools" target="_blank" rel="noopener">devtools extension</a> to provide advanced features such as zero-config time-travel debugging and state snapshot export / import.</p>
+</blockquote>
+<a id="more"></a>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vuex --save</span><br></pre></td></tr></table></figure>
+<p> Explicitly install Vuex via <code>Vue.use()</code>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> Vuex <span class="keyword">from</span> <span class="string">'vuex'</span></span><br><span class="line"></span><br><span class="line">Vue.use(Vuex)</span><br></pre></td></tr></table></figure>
+<p>Then in the <code>src/main.js</code> file. Create a store variable</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* eslint-disable no-new */</span></span><br><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Vuex.Store(&#123;</span><br><span class="line">	state:&#123;</span><br><span class="line">      	<span class="comment">// store the selected source which is the current source</span></span><br><span class="line">		selectedSource:<span class="literal">null</span>,</span><br><span class="line">      	<span class="comment">// store all sources fetched from news api</span></span><br><span class="line">		sources:<span class="literal">null</span>,</span><br><span class="line">      	<span class="comment">// the layout if false, layout is list</span></span><br><span class="line">		grid:<span class="literal">true</span></span><br><span class="line">	&#125;,</span><br><span class="line">	mutations:&#123;</span><br><span class="line">		updateSelectedSource(state,newSource)&#123;</span><br><span class="line">			state.selectedSource = newSource;</span><br><span class="line">		&#125;,</span><br><span class="line">		updateSources(state,sources)&#123;</span><br><span class="line">			state.sources = sources;</span><br><span class="line">		&#125;,</span><br><span class="line">		changeLayout(state)&#123;</span><br><span class="line">			state.grid = !state.grid;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	actions:&#123;</span><br><span class="line">		update_selected_source(store,newSource)&#123;</span><br><span class="line">			store.commit(<span class="string">'updateSelectedSource'</span>,newSource);</span><br><span class="line">		&#125;,</span><br><span class="line">		update_sources(store,sources)&#123;</span><br><span class="line">			store.commit(<span class="string">'updateSources'</span>,sources);</span><br><span class="line">		&#125;,</span><br><span class="line">		change_layout(store)&#123;</span><br><span class="line">			store.commit(<span class="string">'changeLayout'</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h1 id="SourceList-components"><a href="#SourceList-components" class="headerlink" title="SourceList components"></a>SourceList components</h1><p>Create a file named ‘SourceList.vue’ under the <code>/src/components</code> folder. </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;el-row :gutter=<span class="string">"20"</span>&gt;</span><br><span class="line">   &lt;el-col :span=<span class="string">"18"</span> style=<span class="string">"margin-top: 10px"</span> :offset=<span class="string">'7'</span>&gt;</span><br><span class="line">    &lt;el-form :inline=<span class="string">"true"</span>&gt;</span><br><span class="line">      &lt;el-form-item label=<span class="string">"News sources"</span>&gt;</span><br><span class="line">       &lt;el-select v-model=<span class="string">"selectedSource"</span> placeholder=<span class="string">"Please select a source"</span>&gt;</span><br><span class="line">          &lt;el-option-group</span><br><span class="line">            v-<span class="keyword">for</span>=<span class="string">"source in sources"</span></span><br><span class="line">            :key=<span class="string">"source.label"</span></span><br><span class="line">            :label=<span class="string">"source.label"</span>&gt;</span><br><span class="line">            &lt;el-option</span><br><span class="line">              v-<span class="keyword">for</span>=<span class="string">"item in source.options"</span></span><br><span class="line">              :key=<span class="string">"item.name"</span></span><br><span class="line">              :label=<span class="string">"item.name"</span></span><br><span class="line">              :value=<span class="string">"item"</span>&gt;</span><br><span class="line">            &lt;<span class="regexp">/el-option&gt;</span></span><br><span class="line"><span class="regexp">          &lt;/</span>el-option-group&gt;</span><br><span class="line">        &lt;<span class="regexp">/el-select&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>el-form-item&gt;</span><br><span class="line">      &lt;el-form-item&gt;</span><br><span class="line">        &lt;el-tooltip <span class="class"><span class="keyword">class</span></span>=<span class="string">"item"</span> effect=<span class="string">"light"</span> placement=<span class="string">"bottom-start"</span> v-<span class="keyword">if</span>=<span class="string">"selectedSource"</span>&gt;</span><br><span class="line">           &lt;div slot=<span class="string">"content"</span>&gt;&#123;&#123; selectedSource.description &#125;&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">           &lt;el-button type="primary"&gt;&lt;a v-bind:href="selectedSource.url" target="_blank"&gt;Go to &#123;&#123; selectedSource.name &#125;&#125;&lt;/</span>a&gt;<span class="xml"><span class="tag">&lt;/<span class="name">el-button</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">el-tooltip</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;/<span class="name">el-form-item</span>&gt;</span></span></span><br><span class="line">      &lt;el-form-item v-if="selectedSource"&gt;</span><br><span class="line">        &lt;el-button type="primary" icon="menu" @click="changeLayout"&gt;Change Layout&lt;/el-button&gt;</span><br><span class="line">      &lt;/el-form-item&gt;</span><br><span class="line">    &lt;/el-form&gt;</span><br><span class="line">     &lt;/el-col&gt;</span><br><span class="line"> &lt;/el-row&gt;  </span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: 'sourcelist',</span><br><span class="line">  watch:&#123;</span><br><span class="line">    'selectedSource':'changeSource'</span><br><span class="line">  &#125;,</span><br><span class="line">  data()&#123;</span><br><span class="line">    return&#123;</span><br><span class="line">      selectedSource:null,</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed:&#123;</span><br><span class="line">    sources()&#123;</span><br><span class="line">      return this.$store.state.sources;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods:&#123;</span><br><span class="line">    changeSource()&#123;      this.$store.dispatch('update_selected_source',this.selectedSource);</span><br><span class="line">    &#125;,</span><br><span class="line">    changeLayout()&#123;</span><br><span class="line">      this.$store.dispatch('change_layout');</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">  a&#123;</span><br><span class="line">    text-decoration: none;</span><br><span class="line">    color:white;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="NewsList-component"><a href="#NewsList-component" class="headerlink" title="NewsList component"></a>NewsList component</h1><p>Create a file named ‘NewsList.vue’ under the <code>/src/components</code> folder.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;el-row :gutter=<span class="string">"20"</span> v-loading.fullscreen.lock=<span class="string">"loading"</span>&gt;</span><br><span class="line">    &lt;el-col :span=<span class="string">"span"</span> :offset=<span class="string">"offset"</span> v-<span class="keyword">for</span>=<span class="string">"news in newsList"</span> :key=<span class="string">"news.title"</span>&gt;</span><br><span class="line">      &lt;el-card :body-style=<span class="string">"&#123; padding: '5px'&#125;"</span> style=<span class="string">"height:500px;margin-bottom:5px"</span> &gt;</span><br><span class="line">        &lt;img v-lazy=<span class="string">"news.urlToImage ? news.urlToImage : 'http://via.placeholder.com/350x300?text=No+image+available' "</span> style=<span class="string">"width:100%;height:300px;"</span>/&gt;</span><br><span class="line"></span><br><span class="line">        &lt;div style=<span class="string">"padding: 14px;"</span>&gt;</span><br><span class="line">          &lt;span&gt;&#123;&#123; news.title &#125;&#125;&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">          &lt;div v-if="news.description" class="wrapper"&gt;</span></span><br><span class="line"><span class="regexp">            &lt;p class="description" &gt;&#123;&#123; news.description &#125;&#125;&lt;/</span>p&gt;</span><br><span class="line">          &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">          &lt;div class="bottom clearfix"&gt;</span></span><br><span class="line"><span class="regexp">            &lt;time class="time"&gt;&#123;&#123; news.publishedAt &#125;&#125;&lt;/</span>time&gt;</span><br><span class="line">            &lt;el-button type=<span class="string">"text"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"button"</span> &gt;<span class="xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">v-bind:href</span>=<span class="string">"news.url"</span> <span class="attr">target</span>=<span class="string">"_blank"</span>&gt;</span>View<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><span class="xml"><span class="tag">&lt;/<span class="name">el-button</span>&gt;</span></span></span><br><span class="line"><span class="xml">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>el-card&gt;</span><br><span class="line">    &lt;<span class="regexp">/el-col&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>el-row&gt;</span><br><span class="line">&lt;<span class="regexp">/template&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&lt;script&gt;</span></span><br><span class="line"><span class="regexp">export default &#123;</span></span><br><span class="line"><span class="regexp">  name: 'newslist',</span></span><br><span class="line"><span class="regexp">  data()&#123;</span></span><br><span class="line"><span class="regexp">  	return&#123;</span></span><br><span class="line"><span class="regexp">  	  newsList:[],</span></span><br><span class="line"><span class="regexp">      loading:false,</span></span><br><span class="line"><span class="regexp">      span: 8,</span></span><br><span class="line"><span class="regexp">      offset: 0</span></span><br><span class="line"><span class="regexp">  	&#125;</span></span><br><span class="line"><span class="regexp">  &#125;,</span></span><br><span class="line"><span class="regexp">  created()&#123;</span></span><br><span class="line"><span class="regexp">  	this.fetchNews();</span></span><br><span class="line"><span class="regexp">  &#125;,</span></span><br><span class="line"><span class="regexp">  watch:&#123;</span></span><br><span class="line"><span class="regexp">  	'source':'fetchNews',</span></span><br><span class="line"><span class="regexp">    'grid':'changeLayout'</span></span><br><span class="line"><span class="regexp">  &#125;,</span></span><br><span class="line"><span class="regexp">  computed:&#123;</span></span><br><span class="line"><span class="regexp">  	source()&#123;</span></span><br><span class="line"><span class="regexp">  		return this.$store.state.selectedSource;</span></span><br><span class="line"><span class="regexp">  	&#125;,</span></span><br><span class="line"><span class="regexp">    grid()&#123;</span></span><br><span class="line"><span class="regexp">      return this.$store.state.grid;</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">  &#125;,</span></span><br><span class="line"><span class="regexp">  methods:&#123;</span></span><br><span class="line"><span class="regexp">  	fetchNews()&#123;</span></span><br><span class="line"><span class="regexp">  		console.log('fetch invoked...');</span></span><br><span class="line"><span class="regexp">  		if(this.source)</span></span><br><span class="line"><span class="regexp">  		&#123;</span></span><br><span class="line"><span class="regexp">        this.loading = true;</span></span><br><span class="line"><span class="regexp">  			console.log('fetching...');</span></span><br><span class="line"><span class="regexp">  			this.axios.get('https:/</span><span class="regexp">/newsapi.org/</span>v1/articles?source=<span class="string">' + this.source.id + '</span>&amp;apiKey=<span class="number">5</span>ba4f0af181a460eb1150684b3f96114<span class="string">').then((response) =&gt; &#123;</span></span><br><span class="line"><span class="string">  				console.log(response);</span></span><br><span class="line"><span class="string">	       		let data = response.data;</span></span><br><span class="line"><span class="string">	       		if(data.status === '</span>ok<span class="string">')</span></span><br><span class="line"><span class="string">	       		&#123;</span></span><br><span class="line"><span class="string">	       			this.newsList = data.articles;</span></span><br><span class="line"><span class="string">	       		&#125;</span></span><br><span class="line"><span class="string">            this.loading = false;   </span></span><br><span class="line"><span class="string">       		&#125;);</span></span><br><span class="line"><span class="string">  		&#125;</span></span><br><span class="line"><span class="string">  	&#125;,</span></span><br><span class="line"><span class="string">    changeLayout()&#123;</span></span><br><span class="line"><span class="string">      if(this.grid)&#123;</span></span><br><span class="line"><span class="string">        this.span = 8;</span></span><br><span class="line"><span class="string">        this.offset = 0;</span></span><br><span class="line"><span class="string">        return;</span></span><br><span class="line"><span class="string">      &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">      this.span = 14;</span></span><br><span class="line"><span class="string">      this.offset = 5;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&lt;/script&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&lt;style scoped&gt;</span></span><br><span class="line"><span class="string"> .wrapper &#123;</span></span><br><span class="line"><span class="string">  padding: 5px;</span></span><br><span class="line"><span class="string">  background: #F9FAFC;</span></span><br><span class="line"><span class="string">  max-width: 500;</span></span><br><span class="line"><span class="string">  margin: 10px auto;</span></span><br><span class="line"><span class="string">  border-radius: 4px;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">.description &#123;</span></span><br><span class="line"><span class="string">  overflow: hidden;</span></span><br><span class="line"><span class="string">  display: -webkit-box;</span></span><br><span class="line"><span class="string">  -webkit-line-clamp: 2;</span></span><br><span class="line"><span class="string">  -webkit-box-orient: vertical;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"> a&#123;</span></span><br><span class="line"><span class="string">  text-decoration: none;</span></span><br><span class="line"><span class="string"> &#125;</span></span><br><span class="line"><span class="string"> .time &#123;</span></span><br><span class="line"><span class="string">  font-size: 13px;</span></span><br><span class="line"><span class="string">  color: #999;</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">.bottom &#123;</span></span><br><span class="line"><span class="string">  margin-top: 13px;</span></span><br><span class="line"><span class="string">  line-height: 12px;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">.button &#123;</span></span><br><span class="line"><span class="string">  padding: 0;</span></span><br><span class="line"><span class="string">  float: right;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">.image &#123;</span></span><br><span class="line"><span class="string">  width: 100%;</span></span><br><span class="line"><span class="string">  display: block;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">.clearfix:before,</span></span><br><span class="line"><span class="string">.clearfix:after &#123;</span></span><br><span class="line"><span class="string">    display: table;</span></span><br><span class="line"><span class="string">    content: "";</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">.clearfix:after &#123;</span></span><br><span class="line"><span class="string">    clear: both</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&lt;/style&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="Using-two-components"><a href="#Using-two-components" class="headerlink" title="Using two components"></a>Using two components</h1><p>In <code>src/App.vue</code>. Change the file to this:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=<span class="string">"app"</span> v-loading.fullscreen.lock=<span class="string">"loading"</span>&gt;</span><br><span class="line">    &lt;SourceList&gt;<span class="xml"><span class="tag">&lt;/<span class="name">SourceList</span>&gt;</span></span></span><br><span class="line">    &lt;NewsList&gt;<span class="xml"><span class="tag">&lt;/<span class="name">NewsList</span>&gt;</span></span></span><br><span class="line">  &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">import</span> SourceList <span class="keyword">from</span> <span class="string">'./components/SourceList'</span></span><br><span class="line"><span class="keyword">import</span> NewsList <span class="keyword">from</span> <span class="string">'./components/NewsList'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  name: <span class="string">'app'</span>,</span><br><span class="line">  created()&#123;</span><br><span class="line">    <span class="comment">// get news resources when the app created</span></span><br><span class="line">  	<span class="keyword">this</span>.fetchSource();</span><br><span class="line">  &#125;,</span><br><span class="line">  data()&#123;</span><br><span class="line">  	<span class="keyword">return</span>&#123;</span><br><span class="line">      	<span class="comment">// the flag used to control the loading bar</span></span><br><span class="line">  		loading:<span class="literal">false</span></span><br><span class="line">  	&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    <span class="comment">// register two components created above</span></span><br><span class="line">    SourceList,</span><br><span class="line">    NewsList,</span><br><span class="line">  &#125;,</span><br><span class="line">  methods:&#123;</span><br><span class="line">  	fetchSource()&#123;</span><br><span class="line">  	   <span class="keyword">this</span>.loading = <span class="literal">true</span>;</span><br><span class="line">       <span class="comment">// get news resources</span></span><br><span class="line">  	   <span class="keyword">this</span>.axios.get(<span class="string">'https://newsapi.org/v1/sources?language=en'</span>).then(<span class="function">(<span class="params">response</span>) =&gt;</span> &#123;</span><br><span class="line">       <span class="keyword">let</span> data = response.data;</span><br><span class="line">       <span class="comment">// object used to store the resorted data</span></span><br><span class="line">       <span class="keyword">let</span> hash = &#123;&#125;;</span><br><span class="line">       <span class="comment">// news sources that will be used in the elementui selector</span></span><br><span class="line">       <span class="keyword">let</span> sources = [];</span><br><span class="line">       <span class="comment">// if we get the response data</span></span><br><span class="line">       <span class="keyword">if</span>(data.status === <span class="string">'ok'</span>)&#123;</span><br><span class="line">        <span class="comment">// resort the data based on their category.</span></span><br><span class="line">        data.sources.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">           <span class="keyword">let</span> originalCat = e.category;</span><br><span class="line">           <span class="keyword">let</span> category = originalCat.charAt(<span class="number">0</span>).toUpperCase() + originalCat.slice(<span class="number">1</span>);</span><br><span class="line">           hash[category] ? hash[category].options.push(e) : (hash[category] = &#123;<span class="attr">label</span>:category,<span class="attr">options</span>:[e]&#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// based on the resorted data, populate the array, which could be used in the elementui selector</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> e <span class="keyword">in</span> hash)&#123;</span><br><span class="line">          sources.push(hash[e]);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// update sources</span></span><br><span class="line">        <span class="keyword">this</span>.$store.dispatch(<span class="string">'update_sources'</span>,sources);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// remove loading bar</span></span><br><span class="line">        <span class="keyword">this</span>.loading = <span class="literal">false</span>;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  	&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p><iframe src="https://giphy.com/embed/l0IyoNPLGRw1acBby" width="480" height="260" frameborder="0" class="giphy-embed" allowfullscreen></iframe></p><p><a href="https://giphy.com/gifs/l0IyoNPLGRw1acBby" target="_blank" rel="noopener">via GIPHY</a></p><p></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Vue/" rel="tag"># Vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/13/create-a-loading-bar/" rel="next" title="Create a simple loading bar using Javascript">
+                <i class="fa fa-chevron-left"></i> Create a simple loading bar using Javascript
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/18/vue-simple-toaster/" rel="prev" title="vue-simple-toaster">
+                vue-simple-toaster <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Yi Yang</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Install-Vue"><span class="nav-number">1.</span> <span class="nav-text">Install Vue</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Install-ElementUI"><span class="nav-number">2.</span> <span class="nav-text">Install ElementUI</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Apply-an-API-key-from-News-API"><span class="nav-number">3.</span> <span class="nav-text">Apply an API key from News API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Install-Vue-axios"><span class="nav-number">4.</span> <span class="nav-text">Install Vue-axios</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Install-vue-lazyload"><span class="nav-number">5.</span> <span class="nav-text">Install vue-lazyload</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Install-Vuex"><span class="nav-number">6.</span> <span class="nav-text">Install Vuex</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SourceList-components"><span class="nav-number">7.</span> <span class="nav-text">SourceList components</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NewsList-component"><span class="nav-number">8.</span> <span class="nav-text">NewsList component</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Using-two-components"><span class="nav-number">9.</span> <span class="nav-text">Using two components</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yi Yang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
